@@ -6,7 +6,7 @@
  * Version:     0.0.1-dev
  * Author:      Nexcess
  * Author URI:  https://www.nexcess.net
- * Text Domain: woocommerce-installments
+ * Text Domain: woocommerce-installment-emails
  * Domain Path: /languages
  * WC requires at least: 5.2.0
  * WC tested up to: 5.3.0
@@ -59,6 +59,9 @@ function nx_woo_installment_emails_file_load() {
 	// Load the multi-use files first.
 	require_once __DIR__ . '/includes/helpers.php';
 	require_once __DIR__ . '/includes/utilities.php';
+
+    // Load the admin related files.
+    require_once __DIR__ . '/includes/admin/woo-meta.php';
 
 	// Load the triggered file loads.
 	require_once __DIR__ . '/includes/activate.php';

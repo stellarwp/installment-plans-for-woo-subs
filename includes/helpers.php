@@ -20,3 +20,12 @@ use Nexcess\WooInstallmentEmails\Utilities as Utilities;
 function maybe_woo_activated() {
 	return class_exists( 'woocommerce' ) ? true : false;
 }
+
+/**
+ * Check to see if WooCommerce Subscriptions is installed and active.
+ *
+ * @return boolean
+ */
+function maybe_woo_subs_activated() {
+    return function_exists( 'wcs_is_subscription' ) ? true : false;
+}
