@@ -39,9 +39,10 @@ define( __NAMESPACE__ . '\ASSETS_URL', URL . 'assets' );
 
 // Set our includes and template path constants.
 define( __NAMESPACE__ . '\INCLUDES_PATH', __DIR__ . '/includes' );
+define( __NAMESPACE__ . '\TEMPLATES_PATH', __DIR__ . '/templates' );
 
 // Set the various prefixes for our actions and filters.
-define( __NAMESPACE__ . '\HOOK_PREFIX', 'woo_insteml_' );
+define( __NAMESPACE__ . '\HOOK_PREFIX', 'wc_installment_emails_' );
 define( __NAMESPACE__ . '\NONCE_PREFIX', 'woo_insteml_nonce_' );
 define( __NAMESPACE__ . '\TRANSIENT_PREFIX', 'wcinsteml_tr_' );
 define( __NAMESPACE__ . '\OPTION_PREFIX', 'woo_insteml_setting_' );
@@ -60,8 +61,10 @@ function nx_woo_installment_emails_file_load() {
 	require_once __DIR__ . '/includes/helpers.php';
 	require_once __DIR__ . '/includes/utilities.php';
 
-    // Load the admin related files.
-    require_once __DIR__ . '/includes/admin/woo-meta.php';
+	// Load the Woo related files.
+	require_once __DIR__ . '/includes/woo/meta.php';
+	require_once __DIR__ . '/includes/woo/orders.php';
+	require_once __DIR__ . '/includes/woo/email.php';
 
 	// Load the triggered file loads.
 	require_once __DIR__ . '/includes/activate.php';

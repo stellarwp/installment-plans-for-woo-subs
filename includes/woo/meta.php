@@ -6,15 +6,12 @@
  */
 
 // Declare our namespace.
-namespace Nexcess\WooInstallmentEmails\Admin\WooMeta;
+namespace Nexcess\WooInstallmentEmails\Woo\Meta;
 
 // Set our aliases.
 use Nexcess\WooInstallmentEmails as Core;
 use Nexcess\WooInstallmentEmails\Helpers as Helpers;
 use Nexcess\WooInstallmentEmails\Utilities as Utilities;
-
-// And pull in any other namespaces.
-use WP_Error;
 
 /**
  * Start our engines.
@@ -33,11 +30,11 @@ add_action( 'woocommerce_process_product_meta_variable-subscription', __NAMESPAC
 function add_installment_option_type( $product_types ) {
 
 	// Only add it if it doesn't exist.
-	if ( ! isset( $product_types['installments'] ) ) {
+	if ( ! isset( $product_types['is_installments'] ) ) {
 
 		// Add our new one.
-		$product_types['installments'] = array(
-			'id'            => '_installments',
+		$product_types['is_installments'] = array(
+			'id'            => '_is_installments',
 			'wrapper_class' => 'show_if_subscription show_if_variable-subscription',
 			'label'         => __( 'Installments', 'woocommerce-installment-emails' ),
 			'description'   => __( 'This subscription will be used for installment payments.', 'woocommerce-installment-emails' ),
@@ -59,8 +56,8 @@ function add_installment_option_type( $product_types ) {
 function save_installment_option_type( $product_id ) {
 
 	// Check for the POST value.
-	$is_installment = isset( $_POST['_installments'] ) ? 'yes' : 'no';
+	$is_installment = isset( $_POST['_is_installments'] ) ? 'yes' : 'no';
 
 	// Set the meta key.
-	update_post_meta( $product_id, '_installments', $is_installment );
+	update_post_meta( $product_id, '_is_installments', $is_installment );
 }
