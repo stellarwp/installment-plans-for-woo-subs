@@ -79,7 +79,7 @@ function get_order_email_template_args( $order_id = 0, $order, $is_admin_email, 
 
 	// Set the initial args from Subscriptions.
 	$template_args  = array(
-		'base' => plugin_dir_path( WC_Subscriptions::$plugin_file ) . 'templates/',
+		'base' => plugin_dir_path( \WC_Subscriptions::$plugin_file ) . 'templates/',
 		'file' => ( $plaintext ) ? 'emails/plain/subscription-info.php' : 'emails/subscription-info.php',
 	);
 

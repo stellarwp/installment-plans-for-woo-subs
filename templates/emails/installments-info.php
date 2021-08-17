@@ -23,9 +23,9 @@ $is_parent_order       = wcs_order_contains_subscription( $order, 'parent' );
 	<thead>
 		<tr>
 			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'ID', 'subscription ID table heading', 'woocommerce-installment-emails' ); ?></th>
-			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'Start date', 'table heading', 'woocommerce-installment-emails' ); ?></th>
-			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'End date', 'table heading', 'woocommerce-installment-emails' ); ?></th>
-			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'Recurring total', 'table heading', 'woocommerce-installment-emails' ); ?></th>
+			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'First Payment', 'table heading', 'woocommerce-installment-emails' ); ?></th>
+			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'Last Payment', 'table heading', 'woocommerce-installment-emails' ); ?></th>
+			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'Payment Amount', 'table heading', 'woocommerce-installment-emails' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -33,8 +33,11 @@ $is_parent_order       = wcs_order_contains_subscription( $order, 'parent' );
 		<?php $has_automatic_renewal = $has_automatic_renewal || ! $subscription->is_manual(); ?>
 		<tr>
 			<td class="td" scope="row" style="text-align:left;"><a href="<?php echo esc_url( ( $is_admin_email ) ? wcs_get_edit_post_link( $subscription->get_id() ) : $subscription->get_view_order_url() ); ?>"><?php echo sprintf( esc_html_x( '#%s', 'subscription number in email table. (eg: #106)', 'woocommerce-installment-emails' ), esc_html( $subscription->get_order_number() ) ); ?></a></td>
+
 			<td class="td" scope="row" style="text-align:left;"><?php echo esc_html( date_i18n( wc_date_format(), $subscription->get_time( 'start_date', 'site' ) ) ); ?></td>
-			<td class="td" scope="row" style="text-align:left;"><?php echo esc_html( ( 0 < $subscription->get_time( 'end' ) ) ? date_i18n( wc_date_format(), $subscription->get_time( 'end', 'site' ) ) : _x( 'When cancelled', 'Used as end date for an indefinite subscription', 'woocommerce-installment-emails' ) ); ?></td>
+
+			<td class="td" scope="row" style="text-align:left;"><?php echo esc_html( date_i18n( wc_date_format(), $subscription->get_time( 'end', 'site' ) ) ); ?></td>
+
 			<td class="td" scope="row" style="text-align:left;">
 				<?php echo wp_kses_post( $subscription->get_formatted_order_total() ); ?>
 				<?php if ( $is_parent_order && $subscription->get_time( 'next_payment' ) > 0 ) : ?>

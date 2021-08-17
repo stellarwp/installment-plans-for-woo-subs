@@ -26,13 +26,12 @@ foreach ( $subscriptions as $subscription ) {
 	// translators: placeholder is either view or edit url for the subscription
 	echo sprintf( _x( 'View subscription: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $is_admin_email ? wcs_get_edit_post_link( $subscription->get_id() ) : $subscription->get_view_order_url() ) . "\n";
 	// translators: placeholder is localised start date
-	echo sprintf( _x( 'Start date: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), date_i18n( wc_date_format(), $subscription->get_time( 'start_date', 'site' ) ) ) . "\n";
+	echo sprintf( _x( 'First payment: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), date_i18n( wc_date_format(), $subscription->get_time( 'start_date', 'site' ) ) ) . "\n";
 
-	$end_date = ( 0 < $subscription->get_time( 'end' ) ) ? date_i18n( wc_date_format(), $subscription->get_time( 'end', 'site' ) ) : _x( 'When Cancelled', 'Used as end date for an indefinite subscription', 'woocommerce-installment-emails' );
-	// translators: placeholder is localised end date, or "when cancelled"
-	echo sprintf( _x( 'End date: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $end_date ) . "\n";
+	// translators: placeholder is localised end date
+	echo sprintf( _x( 'Last payment: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), date_i18n( wc_date_format(), $subscription->get_time( 'end', 'site' ) ) ) . "\n";
 	// translators: placeholder is the formatted order total for the subscription
-	echo sprintf( _x( 'Recurring price: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $subscription->get_formatted_order_total() );
+	echo sprintf( _x( 'Payment amount: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $subscription->get_formatted_order_total() );
 
 	if ( $is_parent_order && $subscription->get_time( 'next_payment' ) > 0 ) {
 		echo "\n" . sprintf( esc_html__( 'Next payment: %s', 'woocommerce-installment-emails' ), esc_html( date_i18n( wc_date_format(), $subscription->get_time( 'next_payment', 'site' ) ) ) );
