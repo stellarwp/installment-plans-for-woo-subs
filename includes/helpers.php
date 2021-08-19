@@ -33,11 +33,12 @@ function maybe_woo_subs_activated() {
 /**
  * Check all the products in an order for installments.
  *
- * @param  WC_Order $order  The entire order object.
+ * @param  WC_Order $order          The entire order object.
+ * @param  boolean  $return_length  Whether to return the length or not.
  *
  * @return boolean
  */
-function maybe_order_has_installments( $order ) {
+function maybe_order_has_installments( $order, $return_length = true ) {
 
 	// Bail if the order isn't passed correctly.
 	if ( empty( $order ) ) {
@@ -55,6 +56,16 @@ function maybe_order_has_installments( $order ) {
 
 		// If we have it, return true (and we're done).
 		if ( ! empty( $maybe_key ) && 'yes' === sanitize_text_field( $maybe_key ) ) {
+
+			// Return the subscription length if requested.
+			if ( false !== $return_length ) {
+				$sub_length = get_post_meta( $product_id, '_subscription_length', true );
+
+				// Return the length, which has to be at least 1.
+				return ! empty( $sub_length ) ? $sub_length : 1;
+			}
+
+			// Return a boolean.
 			return true;
 		}
 
@@ -97,5 +108,34 @@ function get_order_email_template_args( $order_id = 0, $order, $is_admin_email, 
 	}
 
 	// Return it filtered.
-	return apply_filters( Core\HOOK_PREFIX . 'alert_email_address', $template_args, $order_id, $order, $is_admin_email, $plaintext );
+	return apply_filters( Core\HOOK_PREFIX . 'email_template_args', $template_args, $order_id, $order, $is_admin_email, $plaintext );
+}
+
+/**
+ * Add the ordinal suffix to a number.
+ *
+ * @param  integer $num  The number we wanna do.
+ *
+ * @return string
+ */
+function add_ordinal_suffix( $num = 1 ) {
+
+	// We have some we need to do mathletics to.
+	if ( ! in_array( ( $num % 100 ), array( 11, 12, 13 ) ) ) {
+
+		switch ( $num % 10 ) {
+			// Handle 1st, 2nd, 3rd
+			case 1:
+				return $num . '<sup>st</sup>';
+
+			case 2:
+				return $num . '<sup>nd</sup>';
+
+			case 3:
+				return $num . '<sup>rd</sup>';
+		}
+	}
+
+	// This is our remaining one.
+	return $num . '<sup>th</sup>';
 }
