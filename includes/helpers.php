@@ -123,19 +123,29 @@ function add_ordinal_suffix( $num = 1 ) {
 	// We have some we need to do mathletics to.
 	if ( ! in_array( ( $num % 100 ), array( 11, 12, 13 ) ) ) {
 
+		// Set an empty string.
+		$ordinal_number = '';
+
+		// Run a switch to handle 1st, 2nd, 3rd.
 		switch ( $num % 10 ) {
-			// Handle 1st, 2nd, 3rd
+
 			case 1:
-				return $num . '<sup>st</sup>';
+				$ordinal_number = $num . '<sup>st</sup>';
+				break;
 
 			case 2:
-				return $num . '<sup>nd</sup>';
+				$ordinal_number = $num . '<sup>nd</sup>';
+				break;
 
 			case 3:
-				return $num . '<sup>rd</sup>';
+				$ordinal_number = $num . '<sup>rd</sup>';
+				break;
 		}
+
+		// And return it.
+		return apply_filters( Core\HOOK_PREFIX . 'ordinal_suffix', $ordinal_number, $num );
 	}
 
 	// This is our remaining one.
-	return $num . '<sup>th</sup>';
+	return apply_filters( Core\HOOK_PREFIX . 'ordinal_suffix', $num . '<sup>th</sup>', $num );
 }
