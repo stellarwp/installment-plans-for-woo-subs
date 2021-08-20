@@ -22,7 +22,6 @@ $is_parent_order       = wcs_order_contains_subscription( $order, 'parent' );
 <table class="td" cellspacing="0" cellpadding="6" style="width: 100%; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; margin-bottom: 0.5em;" border="1">
 	<thead>
 		<tr>
-			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'ID', 'subscription ID table heading', 'woocommerce-installment-emails' ); ?></th>
 			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'Installment', 'table heading', 'woocommerce-installment-emails' ); ?></th>
 			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'Plan Details', 'table heading', 'woocommerce-installment-emails' ); ?></th>
 			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'Next Payment', 'table heading', 'woocommerce-installment-emails' ); ?></th>
@@ -36,12 +35,8 @@ $is_parent_order       = wcs_order_contains_subscription( $order, 'parent' );
 
 		<tr>
 			<td class="td" scope="row" style="text-align:left;">
-				<a href="<?php echo esc_url( ( $is_admin_email ) ? wcs_get_edit_post_link( $subscription->get_id() ) : $subscription->get_view_order_url() ); ?>"><?php echo sprintf( esc_html_x( '#%s', 'subscription number in email table. (eg: #106)', 'woocommerce-installment-emails' ), esc_html( $subscription->get_order_number() ) ); ?></a>
-			</td>
-
-			<td class="td" scope="row" style="text-align:left;">
 				<?php echo wp_kses_post( $content_args['payment-detail'] ); ?><br>
-				<small><?php echo esc_html( date_i18n( wc_date_format(), $subscription->get_time( 'date_created', 'site' ) ) ); ?></small>
+				<a href="<?php echo esc_url( ( $is_admin_email ) ? wcs_get_edit_post_link( $subscription->get_id() ) : $subscription->get_view_order_url() ); ?>"><?php echo esc_html( date_i18n( wc_date_format(), $subscription->get_time( 'date_created', 'site' ) ) ); ?></a>
 			</td>
 
 			<td class="td" scope="row" style="text-align:left;">
