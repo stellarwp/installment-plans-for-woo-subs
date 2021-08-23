@@ -60,4 +60,7 @@ function save_installment_option_type( $product_id ) {
 
 	// Set the meta key.
 	update_post_meta( $product_id, '_is_installments', $is_installment );
+
+	// And delete the transient related.
+	delete_transient( Core\TRANSIENT_PREFIX . 'has_installments' );
 }

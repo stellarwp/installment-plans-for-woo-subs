@@ -47,6 +47,9 @@ define( __NAMESPACE__ . '\NONCE_PREFIX', 'woo_insteml_nonce_' );
 define( __NAMESPACE__ . '\TRANSIENT_PREFIX', 'wcinsteml_tr_' );
 define( __NAMESPACE__ . '\OPTION_PREFIX', 'woo_insteml_setting_' );
 
+// Set our front menu endpoint constant.
+define( __NAMESPACE__ . '\FRONT_VAR', 'installment-plans' );
+
 // Now we handle all the various file loading.
 nx_woo_installment_emails_file_load();
 
@@ -65,6 +68,7 @@ function nx_woo_installment_emails_file_load() {
 	require_once __DIR__ . '/includes/woo/meta.php';
 	require_once __DIR__ . '/includes/woo/orders.php';
 	require_once __DIR__ . '/includes/woo/email.php';
+	require_once __DIR__ . '/includes/woo/account.php';
 
 	// Load the triggered file loads.
 	require_once __DIR__ . '/includes/activate.php';

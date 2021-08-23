@@ -31,6 +31,87 @@ function maybe_woo_subs_activated() {
 }
 
 /**
+ * Check and see if any products have been applied.
+ *
+ * @return boolean
+ */
+function maybe_store_has_installments() {
+
+	// Set the key to use in our transient.
+	$ky = Core\TRANSIENT_PREFIX . 'has_installments';
+
+	// If we don't want the cache'd version, delete the transient first.
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG || ! empty( $purge ) ) {
+		delete_transient( $ky );
+	}
+
+	// Attempt to get the result from the cache.
+	$cached_results = get_transient( $ky );
+
+	// If we have none, do the things.
+	if ( false === $cached_results ) {
+
+		// Call the global database.
+		global $wpdb;
+
+		// Set our table name.
+		$table_name = $wpdb->prefix . 'postmeta';
+
+		// Set up our query.
+		$query_args = $wpdb->prepare("
+			SELECT   post_id
+			FROM     $table_name
+			WHERE    meta_key = '%s'
+			AND      meta_value = '%s'
+			LIMIT    1
+		", esc_attr( '_is_installments' ), esc_attr( 'yes' ) );
+
+		// Process the query.
+		$query_run  = $wpdb->get_results( $query_args );
+
+		// Bail without any reviews.
+		if ( empty( $query_run ) ) {
+			return false;
+		}
+
+		// Set our transient with our data.
+		set_transient( $ky, $query_run, DAY_IN_SECONDS );
+
+		// And change the variable to do the things.
+		$cached_results = $query_run;
+	}
+
+	// Return the cached value.
+	return $cached_results;
+}
+
+/**
+ * Check if we are on the account privacy data page.
+ *
+ * @param  boolean $in_query  Whether to check inside the actual query.
+ *
+ * @return boolean
+ */
+function maybe_account_endpoint_page( $in_query = false ) {
+
+	// Bail if we aren't on the right general place.
+	if ( is_admin() || ! is_account_page() ) {
+		return false;
+	}
+
+	// Bail if we aren't on the right general place.
+	if ( $in_query && ! in_the_loop() || $in_query && ! is_main_query() ) {
+		return false;
+	}
+
+	// Call the global query object.
+	global $wp_query;
+
+	// Return if we are on our specific var or not.
+	return isset( $wp_query->query_vars[ Core\FRONT_VAR ] ) ? true : false;
+}
+
+/**
  * Check all the products in an order for installments.
  *
  * @param  WC_Order $order          The entire order object.
@@ -151,4 +232,31 @@ function add_ordinal_suffix( $number = 1 ) {
 
 	// This is our remaining one.
 	return apply_filters( Core\HOOK_PREFIX . 'ordinal_suffix', $default_ordinal, $number );
+}
+
+/**
+ * Adjust the "My Account" menu to make sure login is at the bottom.
+ *
+ * @param  array $items  Our current array of items.
+ *
+ * @return array $items  The modified array.
+ */
+function adjust_account_tab_order( $items = array() ) {
+
+	// If we don't have the logout link, just return what we have.
+	if ( ! isset( $items['customer-logout'] ) ) {
+		return $items;
+	}
+
+	// Set our logout link.
+	$logout = $items['customer-logout'];
+
+	// Remove the logout.
+	unset( $items['customer-logout'] );
+
+	// Now add it back in.
+	$items['customer-logout'] = $logout;
+
+	// And return the set.
+	return $items;
 }
