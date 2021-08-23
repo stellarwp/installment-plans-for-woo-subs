@@ -2,7 +2,8 @@
 /**
  * Installments information template (plain text).
  *
- * This is basically copied from the WooCommerce Subscriptions plugin.
+ * This was copied from the WooCommerce Subscriptions
+ * extension and then modified to fit our needs.
  *
  * @package WooInstallmentEmails
  */
@@ -21,20 +22,30 @@ echo "\n\n" . __( 'Installment Plan Information', 'woocommerce-installment-email
 foreach ( $subscriptions as $subscription ) {
 	$has_automatic_renewal = $has_automatic_renewal || ! $subscription->is_manual();
 
-	// translators: placeholder is subscription's number
-	echo sprintf( _x( 'Subscription: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $subscription->get_order_number() ) . "\n";
-	// translators: placeholder is either view or edit url for the subscription
-	echo sprintf( _x( 'View subscription: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $is_admin_email ? wcs_get_edit_post_link( $subscription->get_id() ) : $subscription->get_view_order_url() ) . "\n";
-	// translators: placeholder is localised start date
-	echo sprintf( _x( 'First payment: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), date_i18n( wc_date_format(), $subscription->get_time( 'start_date', 'site' ) ) ) . "\n";
+	$content_args = wc_installment_emails_get_content_args( $subscription, $order, false );
 
-	// translators: placeholder is localised end date
-	echo sprintf( _x( 'Last payment: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), date_i18n( wc_date_format(), $subscription->get_time( 'end', 'site' ) ) ) . "\n";
-	// translators: placeholder is the formatted order total for the subscription
-	echo sprintf( _x( 'Payment amount: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $subscription->get_formatted_order_total() );
+	// translators: placeholder is installment count and amount.
+	echo sprintf( _x( 'Installment: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $content_args['payment-detail'] ) . "\n";
+
+	// translators: placeholder is the localised date of payment.
+	echo sprintf( _x( 'Payment Date: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), date_i18n( wc_date_format(), $subscription->get_time( 'date_created', 'site' ) ) ) . "\n";
+
+	// A header for the plan details.
+	echo '--' . _x( 'Plan Details', 'in plain emails for subscription information', 'woocommerce-installment-emails' ) . '--' . "\n";
+
+	// translators: placeholder is total number of installment payments.
+	echo sprintf( _x( 'Total payments: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $content_args['single-count'] ) . "\n";
+
+	// translators: placeholder is installment type.
+	echo sprintf( _x( 'Terms: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $content_args['payment-terms'] ) . "\n";
+
+	// translators: placeholder is the total amount of the subscription
+	echo sprintf( _x( 'Total cost: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $content_args['total-cost'] ) . "\n";
 
 	if ( $is_parent_order && $subscription->get_time( 'next_payment' ) > 0 ) {
-		echo "\n" . sprintf( esc_html__( 'Next payment: %s', 'woocommerce-installment-emails' ), esc_html( date_i18n( wc_date_format(), $subscription->get_time( 'next_payment', 'site' ) ) ) );
+		echo sprintf( esc_html__( 'Next payment: %s', 'woocommerce-installment-emails' ), esc_html( date_i18n( wc_date_format(), $subscription->get_time( 'next_payment', 'site' ) ) ) );
+	} else {
+		echo sprintf( esc_html__( 'Next payment: %s', 'woocommerce-installment-emails' ), $content_args['no-remaining'] ) );
 	}
 
 	echo "\n\n";
@@ -48,7 +59,7 @@ if ( $has_automatic_renewal && ! $is_admin_email && $subscription->get_time( 'ne
 	}
 
 	// Translators: Placeholder is the My Account URL.
-	echo wp_kses_post( sprintf( _n(
+	echo esc_html( sprintf( _n(
 		'This installment plan is set to renew automatically using your payment method on file. You can manage or cancel this order from your my account page. %s',
 		'These installment plans are set to renew automatically using your payment method on file. You can manage or cancel your orders from your my account page. %s',
 		count( $subscriptions ),

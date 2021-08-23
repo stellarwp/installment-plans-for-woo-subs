@@ -114,38 +114,42 @@ function get_order_email_template_args( $order_id = 0, $order, $is_admin_email, 
 /**
  * Add the ordinal suffix to a number.
  *
- * @param  integer $num  The number we wanna do.
+ * @param  integer $number  The number we wanna do.
+ * @param  boolean $markup  Whether to include the markup or not.
  *
  * @return string
  */
-function add_ordinal_suffix( $num = 1 ) {
+function add_ordinal_suffix( $number = 1, $markup = true ) {
+
+	// Set a default ordinal.
+	$default_ordinal    = false !== $markup ? $number . '<sup>th</sup>' : $number . 'th';
 
 	// We have some we need to do mathletics to.
-	if ( ! in_array( ( $num % 100 ), array( 11, 12, 13 ) ) ) {
+	if ( ! in_array( ( $number % 100 ), array( 11, 12, 13 ) ) ) {
 
 		// Set an empty string.
 		$ordinal_number = '';
 
 		// Run a switch to handle 1st, 2nd, 3rd.
-		switch ( $num % 10 ) {
+		switch ( $number % 10 ) {
 
 			case 1:
-				$ordinal_number = $num . '<sup>st</sup>';
+				$ordinal_number = false !== $markup ? $number . '<sup>st</sup>' : $number . 'st';
 				break;
 
 			case 2:
-				$ordinal_number = $num . '<sup>nd</sup>';
+				$ordinal_number = false !== $markup ? $number . '<sup>nd</sup>' : $number . 'nd';
 				break;
 
 			case 3:
-				$ordinal_number = $num . '<sup>rd</sup>';
+				$ordinal_number = false !== $markup ? $number . '<sup>rd</sup>' : $number . 'rd';
 				break;
 		}
 
 		// And return it.
-		return apply_filters( Core\HOOK_PREFIX . 'ordinal_suffix', $ordinal_number, $num );
+		return apply_filters( Core\HOOK_PREFIX . 'ordinal_suffix', $ordinal_number, $number, $markup );
 	}
 
 	// This is our remaining one.
-	return apply_filters( Core\HOOK_PREFIX . 'ordinal_suffix', $num . '<sup>th</sup>', $num );
+	return apply_filters( Core\HOOK_PREFIX . 'ordinal_suffix', $default_ordinal, $number, $markup );
 }

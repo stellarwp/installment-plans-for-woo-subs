@@ -2,7 +2,8 @@
 /**
  * Installments information template (HTML).
  *
- * This is basically copied from the WooCommerce Subscriptions plugin.
+ * This was copied from the WooCommerce Subscriptions
+ * extension and then modified to fit our needs.
  *
  * @package WooInstallmentEmails
  */
@@ -42,7 +43,7 @@ $is_parent_order       = wcs_order_contains_subscription( $order, 'parent' );
 			<td class="td" scope="row" style="text-align:left;">
 				<strong><?php echo wp_kses_post( $content_args['payment-counts'] ); ?></strong><br>
 				<?php echo wp_kses_post( $content_args['payment-schedule'] ); ?><br>
-				(<?php echo wp_kses_post( $content_args['total-cost'] ); ?>)
+				(<?php echo wp_kses_post( $content_args['payment-totals'] ); ?>)
 			</td>
 
 			<td class="td" scope="row" style="text-align:left;">
