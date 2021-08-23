@@ -22,13 +22,13 @@ echo "\n\n" . __( 'Installment Plan Information', 'woocommerce-installment-email
 foreach ( $subscriptions as $subscription ) {
 	$has_automatic_renewal = $has_automatic_renewal || ! $subscription->is_manual();
 
-	$content_args = wc_installment_emails_get_content_args( $subscription, $order, false );
+	$content_args = wc_installment_emails_get_content_args( $subscription, $order );
 
 	// translators: placeholder is installment count and amount.
-	echo sprintf( _x( 'Installment: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $content_args['payment-detail'] ) . "\n";
+	echo sprintf( _x( 'Installment: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), wp_strip_all_tags( $content_args['payment-detail'] ) ) . "\n";
 
 	// translators: placeholder is the localised date of payment.
-	echo sprintf( _x( 'Payment Date: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), date_i18n( wc_date_format(), $subscription->get_time( 'date_created', 'site' ) ) ) . "\n";
+	echo sprintf( _x( 'Payment Date: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), date_i18n( wc_date_format(), $subscription->get_time( 'date_created', 'site' ) ) ) . "\n\n";
 
 	// A header for the plan details.
 	echo '--' . _x( 'Plan Details', 'in plain emails for subscription information', 'woocommerce-installment-emails' ) . '--' . "\n";
@@ -37,15 +37,15 @@ foreach ( $subscriptions as $subscription ) {
 	echo sprintf( _x( 'Total payments: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $content_args['single-count'] ) . "\n";
 
 	// translators: placeholder is installment type.
-	echo sprintf( _x( 'Terms: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $content_args['payment-terms'] ) . "\n";
+	echo sprintf( _x( 'Terms: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), wp_strip_all_tags( $content_args['payment-schedule'] ) ) . "\n";
 
 	// translators: placeholder is the total amount of the subscription
-	echo sprintf( _x( 'Total cost: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), $content_args['total-cost'] ) . "\n";
+	echo sprintf( _x( 'Total cost: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), wp_strip_all_tags( $content_args['total-cost'] ) ) . "\n";
 
-	if ( $is_parent_order && $subscription->get_time( 'next_payment' ) > 0 ) {
+	if ( $subscription->get_time( 'next_payment' ) > 0 ) {
 		echo sprintf( esc_html__( 'Next payment: %s', 'woocommerce-installment-emails' ), esc_html( date_i18n( wc_date_format(), $subscription->get_time( 'next_payment', 'site' ) ) ) );
 	} else {
-		echo sprintf( esc_html__( 'Next payment: %s', 'woocommerce-installment-emails' ), $content_args['no-remaining'] ) );
+		echo sprintf( esc_html__( 'Next payment: %s', 'woocommerce-installment-emails' ), $content_args['no-remaining'] );
 	}
 
 	echo "\n\n";

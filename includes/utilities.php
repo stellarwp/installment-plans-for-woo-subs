@@ -14,18 +14,17 @@ use Nexcess\WooInstallmentEmails\Helpers as Helpers;
 /**
  * Get all the details we put together for the email box.
  *
- * @param  object  $subscription   The WC_Subscription object.
- * @param  object  $order          The WC_Order object.
- * @param  boolean $is_html_email  Whether this is an HTML email or not.
+ * @param  object  $subscription  The WC_Subscription object.
+ * @param  object  $order         The WC_Order object.
  *
  * @return array
  */
-function wc_installment_emails_get_content_args( $subscription, $order, $is_html_email = true ) {
+function wc_installment_emails_get_content_args( $subscription, $order ) {
 
 	// Begin by handling all our various calculations and meta pulls.
 
 	// Set our single total and increment.
-	$set_single_increm  = Helpers\add_ordinal_suffix( $subscription->get_payment_count(), $is_html_emails );
+	$set_single_increm  = Helpers\add_ordinal_suffix( $subscription->get_payment_count() );
 	$set_single_total   = wc_price( $subscription->get_total(), array( 'currency' => $subscription->get_currency() ) );
 	$set_single_count   = get_post_meta( $order->get_id(), '_order_installment_count', true );
 
@@ -45,5 +44,5 @@ function wc_installment_emails_get_content_args( $subscription, $order, $is_html
 	);
 
 	// Return the content array.
-	return apply_filters( Core\HOOK_PREFIX . 'email_content_args', $set_content_array, $subscription, $order, $is_html_email );
+	return apply_filters( Core\HOOK_PREFIX . 'email_content_args', $set_content_array, $subscription, $order );
 }

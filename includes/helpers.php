@@ -91,7 +91,7 @@ function get_order_email_template_args( $order_id = 0, $order, $is_admin_email, 
 	// Set the initial args from Subscriptions.
 	$template_args  = array(
 		'base' => plugin_dir_path( \WC_Subscriptions::$plugin_file ) . 'templates/',
-		'file' => ( $plaintext ) ? 'emails/plain/subscription-info.php' : 'emails/subscription-info.php',
+		'file' => false !== $plaintext ? 'emails/subscription-info.php' : 'emails/plain/subscription-info.php',
 	);
 
 	// Now get the meta for our flag.
@@ -103,7 +103,7 @@ function get_order_email_template_args( $order_id = 0, $order, $is_admin_email, 
 		// Swap the values.
 		$template_args  = array(
 			'base' => Core\TEMPLATES_PATH . '/',
-			'file' => ( $plaintext ) ? 'emails/plain/installments-info.php' : 'emails/installments-info.php',
+			'file' => false !== $plaintext ? 'emails/installments-info.php' : 'emails/plain/installments-info.php',
 		);
 	}
 
@@ -115,14 +115,13 @@ function get_order_email_template_args( $order_id = 0, $order, $is_admin_email, 
  * Add the ordinal suffix to a number.
  *
  * @param  integer $number  The number we wanna do.
- * @param  boolean $markup  Whether to include the markup or not.
  *
  * @return string
  */
-function add_ordinal_suffix( $number = 1, $markup = true ) {
+function add_ordinal_suffix( $number = 1 ) {
 
 	// Set a default ordinal.
-	$default_ordinal    = false !== $markup ? $number . '<sup>th</sup>' : $number . 'th';
+	$default_ordinal    = $number . '<sup>th</sup>';
 
 	// We have some we need to do mathletics to.
 	if ( ! in_array( ( $number % 100 ), array( 11, 12, 13 ) ) ) {
@@ -134,22 +133,22 @@ function add_ordinal_suffix( $number = 1, $markup = true ) {
 		switch ( $number % 10 ) {
 
 			case 1:
-				$ordinal_number = false !== $markup ? $number . '<sup>st</sup>' : $number . 'st';
+				$ordinal_number = $number . '<sup>st</sup>';
 				break;
 
 			case 2:
-				$ordinal_number = false !== $markup ? $number . '<sup>nd</sup>' : $number . 'nd';
+				$ordinal_number = $number . '<sup>nd</sup>';
 				break;
 
 			case 3:
-				$ordinal_number = false !== $markup ? $number . '<sup>rd</sup>' : $number . 'rd';
+				$ordinal_number = $number . '<sup>rd</sup>';
 				break;
 		}
 
 		// And return it.
-		return apply_filters( Core\HOOK_PREFIX . 'ordinal_suffix', $ordinal_number, $number, $markup );
+		return apply_filters( Core\HOOK_PREFIX . 'ordinal_suffix', $ordinal_number, $number );
 	}
 
 	// This is our remaining one.
-	return apply_filters( Core\HOOK_PREFIX . 'ordinal_suffix', $default_ordinal, $number, $markup );
+	return apply_filters( Core\HOOK_PREFIX . 'ordinal_suffix', $default_ordinal, $number );
 }
