@@ -76,3 +76,42 @@ function wc_installment_emails_array_insert_after( $needle, $haystack, $new_key,
 
 	return $haystack;
 }
+
+/**
+ * Gets all the active and inactive subscriptions for a user, as specified by $user_id
+ *
+ * @param int $user_id (optional) The id of the user whose subscriptions you want. Defaults to the currently logged in user.
+ * @since 2.0
+ *
+ * @return WC_Subscription[]
+ */
+function wc_installment_emails_get_users_installments( $user_id = 0 ) {
+
+	// Make sure we have a user ID before we continue.
+	if ( 0 === $user_id || empty( $user_id ) ) {
+		$user_id = get_current_user_id();
+	}
+
+	// Set an empty.
+	$subscriptions = array();
+
+	$subscription_ids = WCS_Customer_Store::instance()->get_users_subscription_ids( $user_id );
+
+	foreach ( $subscription_ids as $subscription_id ) {
+		$subscription = wcs_get_subscription( $subscription_id );
+
+		if ( $subscription ) {
+
+			$maybe_install = Helpers\maybe_order_has_installments( $subscription, false );
+
+			if ( false !== $maybe_install ) {
+				$subscriptions[ $subscription_id ] = $subscription;
+			}
+		}
+	}
+
+	preprint( $subscriptions, true );
+
+	// And return the rest.
+	return $subscriptions;
+}

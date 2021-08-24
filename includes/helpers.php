@@ -160,19 +160,18 @@ function maybe_order_has_installments( $order, $return_length = true ) {
 /**
  * Get the arguments for the template part based on being installments.
  *
- * @param  integer  $order_id        The ID of the order.
- * @param  WC_Order $order           The entire order object.
- * @param  boolean  $is_admin_email  Whether or not it's an admin email.
- * @param  boolean  $plaintext       If this is a plaintext email or not.
+ * @param  integer  $order_id   The ID of the order.
+ * @param  WC_Order $order      The entire order object.
+ * @param  boolean  $plaintext  If this is a plaintext email or not.
  *
  * @return array
  */
-function get_order_email_template_args( $order_id = 0, $order, $is_admin_email, $plaintext = false ) {
+function get_order_email_template_args( $order_id = 0, $order, $plaintext = false ) {
 
 	// Set the initial args from Subscriptions.
 	$template_args  = array(
 		'base' => plugin_dir_path( \WC_Subscriptions::$plugin_file ) . 'templates/',
-		'file' => false !== $plaintext ? 'emails/subscription-info.php' : 'emails/plain/subscription-info.php',
+		'file' => false !== $plaintext ? 'emails/plain/subscription-info.php' : 'emails/subscription-info.php',
 	);
 
 	// Now get the meta for our flag.
@@ -184,12 +183,12 @@ function get_order_email_template_args( $order_id = 0, $order, $is_admin_email, 
 		// Swap the values.
 		$template_args  = array(
 			'base' => Core\TEMPLATES_PATH . '/',
-			'file' => false !== $plaintext ? 'emails/installments-info.php' : 'emails/plain/installments-info.php',
+			'file' => false !== $plaintext ? 'emails/plain/installments-info.php' : 'emails/installments-info.php',
 		);
 	}
 
 	// Return it filtered.
-	return apply_filters( Core\HOOK_PREFIX . 'email_template_args', $template_args, $order_id, $order, $is_admin_email, $plaintext );
+	return apply_filters( Core\HOOK_PREFIX . 'email_template_args', $template_args, $order_id, $order, $plaintext );
 }
 
 /**

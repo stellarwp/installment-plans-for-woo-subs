@@ -76,19 +76,7 @@ function add_endpoint_notices() {
 		return;
 	}
 
-	/*
-	// Check for a response code.
-	$msg_code   = ! empty( $_GET['errcode'] ) ? sanitize_text_field( $_GET['errcode'] ) : 'unknown';
-
-	// Figure out the text.
-	$msg_text   = ! empty( $_GET['message'] ) ? sanitize_text_field( $_GET['message'] ) : Helpers\notice_text( $msg_code );
-
-	// Determine the message type.
-	$msg_type   = empty( $_GET['success'] ) ? 'error' : 'success';
-
-	// Output the message.
-	echo Layouts\account_message_markup( $msg_text, $msg_type, true, false ); // WPCS: XSS ok.
-	*/
+	// Some messages will show here. probably.
 }
 
 /**
@@ -206,5 +194,8 @@ function change_account_endpoint_title( $title, $endpoint, $action ) {
  * @return HTML
  */
 function add_endpoint_content() {
+
+	//wc_installment_emails_get_users_installments();
+
 	echo '<p>things!</p>';
 }
