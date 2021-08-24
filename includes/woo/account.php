@@ -18,40 +18,13 @@ use Nexcess\WooInstallmentEmails\Utilities as Utilities;
 /**
  * Start our engines.
  */
-add_action( 'init', __NAMESPACE__ . '\add_account_rewrite_endpoint' );
-add_filter( 'query_vars', __NAMESPACE__ . '\add_account_endpoint_vars', 0 );
-// add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\load_endpoint_assets' );
-add_filter( 'the_title', __NAMESPACE__ . '\add_endpoint_title' );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\load_endpoint_assets' );
+add_filter( 'the_title', __NAMESPACE__ . '\change_endpoint_title', 11, 1 );
 add_action( 'woocommerce_before_account_navigation', __NAMESPACE__ . '\add_endpoint_notices', 15 );
 add_filter( 'woocommerce_account_menu_items', __NAMESPACE__ . '\add_endpoint_menu_item' );
+add_filter( 'woocommerce_account_menu_item_classes', __NAMESPACE__ . '\maybe_add_active_class', 10, 2 );
+add_filter( 'woocommerce_endpoint_installment-plans_title', __NAMESPACE__ . '\change_account_endpoint_title', 10, 3 );
 add_action( 'woocommerce_account_installment-plans_endpoint', __NAMESPACE__ . '\add_endpoint_content' );
-
-/**
- * Register new endpoint to use inside My Account page.
- *
- * @see https://developer.wordpress.org/reference/functions/add_rewrite_endpoint/
- */
-function add_account_rewrite_endpoint() {
-	add_rewrite_endpoint( Core\FRONT_VAR, EP_ROOT | EP_PAGES );
-}
-
-/**
- * Add new query var for the GDPR endpoint.
- *
- * @param  array $vars  The existing query vars.
- *
- * @return array
- */
-function add_account_endpoint_vars( $vars ) {
-
-	// Add our new endpoint var if we don't already have it.
-	if ( ! in_array( Core\FRONT_VAR, $vars ) ) {
-		$vars[] = Core\FRONT_VAR;
-	}
-
-	// And return it.
-	return $vars;
-}
 
 /**
  * Load our front-end side JS and CSS.
@@ -79,30 +52,6 @@ function load_endpoint_assets() {
 
 	// And our JS.
 	wp_enqueue_script( $handle, Core\ASSETS_URL . '/js/' . $file . '.js', array( 'jquery' ), $vers, true );
-}
-
-/**
- * Set a title for the individual endpoint we just made.
- *
- * @param  string $title  The existing page title.
- *
- * @return string
- */
-function add_endpoint_title( $title ) {
-
-	// Bail if we aren't on the page.
-	if ( ! Helpers\maybe_account_endpoint_page( true ) ) {
-		return $title;
-	}
-
-	// Set our new page title.
-	$page_title = apply_filters( Core\HOOK_PREFIX . 'endpoint_page_title', __( 'My Installment Plans', 'woocommerce-installment-emails' ), $title );
-
-	// Remove the filter so we don't loop endlessly.
-	remove_filter( 'the_title', __NAMESPACE__ . '\add_endpoint_title' );
-
-	// Return the title.
-	return $page_title;
 }
 
 /**
@@ -145,25 +94,110 @@ function add_endpoint_notices() {
 /**
  * Merge in our new enpoint into the existing "My Account" menu.
  *
- * @param  array $items  The existing menu items.
+ * @param  array $menu_items  The existing menu items.
  *
  * @return array
  */
-function add_endpoint_menu_item( $items ) {
+function add_endpoint_menu_item( $menu_items ) {
 
 	// Bail if no installment plans exist at all.
 	if ( ! Helpers\maybe_store_has_installments() ) {
-		return $items;
+		return $menu_items;
 	}
 
 	// Set up our menu item title.
-	$menu_title = apply_filters( Core\HOOK_PREFIX . 'endpoint_menu_title', __( 'Installment Plans', 'woocommerce-installment-emails' ), $items );
+	$menu_title = apply_filters( Core\HOOK_PREFIX . 'endpoint_menu_title', __( 'Installment Plans', 'woocommerce-installment-emails' ), $menu_items );
 
 	// Add it to the array.
-	$set_items  = wp_parse_args( array( Core\FRONT_VAR => esc_attr( $menu_title ) ), $items );
+	// $set_items  = wp_parse_args( array( Core\FRONT_VAR => esc_attr( $menu_title ) ), $items );
+
+	// Add our menu item after the Subscription tab if it exists.
+	if ( array_key_exists( 'subscriptions', $menu_items ) ) {
+		return wc_installment_emails_array_insert_after( 'subscriptions', $menu_items, Core\FRONT_VAR, $menu_title );
+	}
+
+	// Add our menu item after the Orders tab if it exists.
+	if ( array_key_exists( 'orders', $menu_items ) ) {
+		return wc_installment_emails_array_insert_after( 'orders', $menu_items, Core\FRONT_VAR, $menu_title );
+	}
+
+	// Neither existed, just throw it on the end.
+	return wp_parse_args( array( Core\FRONT_VAR => esc_attr( $menu_title ) ), $menu_items );
 
 	// Return our tabs.
-	return Helpers\adjust_account_tab_order( $set_items );
+	// return Helpers\adjust_account_tab_order( $set_items );
+}
+
+/**
+ * Adds `is-active` class to Subscriptions label when we're viewing a single Subscription.
+ *
+ * @param array  $classes  The classes present in the current endpoint.
+ * @param string $endpoint The endpoint/label we're filtering.
+ *
+ * @return array
+ * @since 2.5.6
+ */
+function maybe_add_active_class( $classes, $endpoint ) {
+
+	// Bail if we aren't on the right general place.
+	if ( ! Helpers\maybe_account_endpoint_page() ) {
+		return $classes;
+	}
+
+	// Throw our active on there if it matches up.
+	if ( ! isset( $classes['is-active'] ) && Core\FRONT_VAR === $endpoint ) {
+		$classes[] = 'is-active';
+	}
+
+	// Return the resulting array.
+	return $classes;
+}
+
+/**
+ * Changes page title on view subscription page
+ *
+ * @param  string $title original title
+ * @return string        changed title
+ */
+function change_endpoint_title( $title ) {
+
+	// We only wanna do this in the proper loop.
+	if ( in_the_loop() && is_account_page() ) {
+
+		// Call the global query object.
+		global $wp_query;
+
+		// Change the title if we have our var.
+		if ( isset( $wp_query->query_vars[ Core\FRONT_VAR ] ) ) {
+
+			// Set the title with a filter.
+			$title = apply_filters( Core\HOOK_PREFIX . 'endpoint_page_title', __( 'My Installment Plans', 'woocommerce-installment-emails' ) );
+
+			// Unhook after we've returned our title to prevent it from overriding others.
+			remove_filter( 'the_title', __NAMESPACE__ . '\change_endpoint_title', 11 );
+		}
+
+		// Nothing left inside this check.
+	}
+
+	// Now return the title.
+	return $title;
+}
+
+/**
+ * Hooks onto `woocommerce_endpoint_{$endpoint}_title` to return the correct page title for subscription endpoints
+ * in My Account.
+ *
+ * @param  string $title     Default title.
+ * @param  string $endpoint  Endpoint key.
+ * @param  string $action    Optional action or variation within the endpoint.
+ *
+ * @return string
+ */
+function change_account_endpoint_title( $title, $endpoint, $action ) {
+
+	// Return ours, filtered.
+	return apply_filters( Core\HOOK_PREFIX . 'endpoint_page_title', __( 'Installment Plans', 'woocommerce-installment-emails' ), $title, $action );
 }
 
 /**

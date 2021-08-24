@@ -65,7 +65,8 @@ function nx_woo_installment_emails_file_load() {
 	require_once __DIR__ . '/includes/utilities.php';
 
 	// Load the Woo related files.
-	require_once __DIR__ . '/includes/woo/meta.php';
+	require_once __DIR__ . '/includes/woo/query-mods.php';
+    require_once __DIR__ . '/includes/woo/meta.php';
 	require_once __DIR__ . '/includes/woo/orders.php';
 	require_once __DIR__ . '/includes/woo/email.php';
 	require_once __DIR__ . '/includes/woo/account.php';
