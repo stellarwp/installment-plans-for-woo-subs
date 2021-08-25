@@ -232,30 +232,3 @@ function add_ordinal_suffix( $number = 1 ) {
 	// This is our remaining one.
 	return apply_filters( Core\HOOK_PREFIX . 'ordinal_suffix', $default_ordinal, $number );
 }
-
-/**
- * Adjust the "My Account" menu to make sure login is at the bottom.
- *
- * @param  array $items  Our current array of items.
- *
- * @return array $items  The modified array.
- */
-function adjust_account_tab_order( $items = array() ) {
-
-	// If we don't have the logout link, just return what we have.
-	if ( ! isset( $items['customer-logout'] ) ) {
-		return $items;
-	}
-
-	// Set our logout link.
-	$logout = $items['customer-logout'];
-
-	// Remove the logout.
-	unset( $items['customer-logout'] );
-
-	// Now add it back in.
-	$items['customer-logout'] = $logout;
-
-	// And return the set.
-	return $items;
-}

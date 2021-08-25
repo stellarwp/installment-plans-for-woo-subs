@@ -22,7 +22,7 @@ echo "\n\n" . __( 'Installment Plan Information', 'woocommerce-installment-email
 foreach ( $subscriptions as $subscription ) {
 	$has_automatic_renewal = $has_automatic_renewal || ! $subscription->is_manual();
 
-	$content_args = wc_installment_emails_get_content_args( $subscription, $order );
+	$content_args = wcie_get_email_content_args( $subscription, $order );
 
 	// translators: placeholder is installment count and amount.
 	echo sprintf( _x( 'Installment: %s', 'in plain emails for subscription information', 'woocommerce-installment-emails' ), wp_strip_all_tags( $content_args['payment-detail'] ) ) . "\n";

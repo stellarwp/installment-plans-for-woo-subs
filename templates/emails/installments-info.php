@@ -32,7 +32,7 @@ $is_parent_order       = wcs_order_contains_subscription( $order, 'parent' );
 	<?php foreach ( $subscriptions as $subscription ) : ?>
 		<?php $has_automatic_renewal = $has_automatic_renewal || ! $subscription->is_manual(); ?>
 
-		<?php $content_args = wc_installment_emails_get_content_args( $subscription, $order ); // Get my content. ?>
+		<?php $content_args = wcie_get_email_content_args( $subscription, $order ); // Get my content. ?>
 
 		<tr>
 			<td class="td" scope="row" style="text-align:left;">

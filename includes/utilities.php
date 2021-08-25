@@ -19,7 +19,7 @@ use Nexcess\WooInstallmentEmails\Helpers as Helpers;
  *
  * @return array
  */
-function wc_installment_emails_get_content_args( $subscription, $order ) {
+function wcie_get_email_content_args( $subscription, $order ) {
 
 	// Begin by handling all our various calculations and meta pulls.
 
@@ -50,13 +50,14 @@ function wc_installment_emails_get_content_args( $subscription, $order ) {
 /**
  * Inserts a new key/value after the key in the array.
  *
- * @param $needle The array key to insert the element after
- * @param $haystack An array to insert the element into
- * @param $new_key The key to insert
- * @param $new_value An value to insert
- * @return The new array if the $needle key exists, otherwise an unmodified $haystack
+ * @param  string $needle     The array key to insert the element after.
+ * @param  array  $haystack   An array to insert the element into.
+ * @param  string $new_key    The key to insert.
+ * @param  mixed  $new_value  An value to insert.
+ *
+ * @return array              The new array if the $needle key exists, otherwise an unmodified $haystack
  */
-function wc_installment_emails_array_insert_after( $needle, $haystack, $new_key, $new_value ) {
+function wcie_array_insert_after( $needle, $haystack, $new_key, $new_value ) {
 
 	if ( array_key_exists( $needle, $haystack ) ) {
 
@@ -78,14 +79,14 @@ function wc_installment_emails_array_insert_after( $needle, $haystack, $new_key,
 }
 
 /**
- * Gets all the active and inactive subscriptions for a user, as specified by $user_id
+ * Get all the active (and inactive) installment based subscriptions for a user.
  *
- * @param int $user_id (optional) The id of the user whose subscriptions you want. Defaults to the currently logged in user.
- * @since 2.0
+ * @param  integer $user_id       The ID of the user whose subscriptions you want. Defaults to the currently logged in user.
+ * @param  boolean $return_count  Whether to return the subscriptions or just the count.
  *
- * @return WC_Subscription[]
+ * @return mixed                  Either an array of subscription objects, a count, or false.
  */
-function wc_installment_emails_get_users_installments( $user_id = 0 ) {
+function wcie_get_user_installments( $user_id = 0, $return_count = false ) {
 
 	// Make sure we have a user ID before we continue.
 	if ( 0 === $user_id || empty( $user_id ) ) {
@@ -93,25 +94,37 @@ function wc_installment_emails_get_users_installments( $user_id = 0 ) {
 	}
 
 	// Set an empty.
-	$subscriptions = array();
+	$subscriptions  = array();
 
-	$subscription_ids = WCS_Customer_Store::instance()->get_users_subscription_ids( $user_id );
+	// Attempt to fetch the IDs.
+	$fetch_sub_ids  = WCS_Customer_Store::instance()->get_users_subscription_ids( $user_id );
 
-	foreach ( $subscription_ids as $subscription_id ) {
-		$subscription = wcs_get_subscription( $subscription_id );
-
-		if ( $subscription ) {
-
-			$maybe_install = Helpers\maybe_order_has_installments( $subscription, false );
-
-			if ( false !== $maybe_install ) {
-				$subscriptions[ $subscription_id ] = $subscription;
-			}
-		}
+	// Bail without any IDs.
+	if ( empty( $fetch_sub_ids ) ) {
+		return false;
 	}
 
-	preprint( $subscriptions, true );
+	// Now loop the IDs and pull out each one.
+	foreach ( $fetch_sub_ids as $single_id ) {
 
-	// And return the rest.
-	return $subscriptions;
+		// Attempt to get the subscription.
+		$subscription   = wcs_get_subscription( $single_id );
+
+		// If we have one, add it to the array.
+		if ( false !== $subscription ) {
+
+			// Check for installments.
+			$maybe_has_installments = Helpers\maybe_order_has_installments( $subscription, false );
+
+			// If we have it, add it.
+			if ( false !== $maybe_has_installments ) {
+				$subscriptions[ $single_id ] = $subscription;
+			}
+		}
+
+		// Nothing left to loop inside the IDs.
+	}
+
+	// Return the array or the count based on the request.
+	return false !== $return_count ? count( $subscriptions ) : $subscriptions;
 }

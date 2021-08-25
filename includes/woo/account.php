@@ -101,19 +101,21 @@ function add_endpoint_menu_item( $menu_items ) {
 
 	// Add our menu item after the Subscription tab if it exists.
 	if ( array_key_exists( 'subscriptions', $menu_items ) ) {
-		return wc_installment_emails_array_insert_after( 'subscriptions', $menu_items, Core\FRONT_VAR, $menu_title );
+		return wcie_array_insert_after( 'subscriptions', $menu_items, Core\FRONT_VAR, $menu_title );
 	}
 
 	// Add our menu item after the Orders tab if it exists.
 	if ( array_key_exists( 'orders', $menu_items ) ) {
-		return wc_installment_emails_array_insert_after( 'orders', $menu_items, Core\FRONT_VAR, $menu_title );
+		return wcie_array_insert_after( 'orders', $menu_items, Core\FRONT_VAR, $menu_title );
 	}
 
-	// Neither existed, just throw it on the end.
-	return wp_parse_args( array( Core\FRONT_VAR => esc_attr( $menu_title ) ), $menu_items );
+	// Add our menu item after the Logout tab if it exists.
+	if ( array_key_exists( 'customer-logout', $menu_items ) ) {
+		return wcie_array_insert_after( 'customer-logout', $menu_items, Core\FRONT_VAR, $menu_title );
+	}
 
-	// Return our tabs.
-	// return Helpers\adjust_account_tab_order( $set_items );
+	// None existed, just throw it on the end.
+	return wp_parse_args( array( Core\FRONT_VAR => esc_attr( $menu_title ) ), $menu_items );
 }
 
 /**
@@ -195,7 +197,7 @@ function change_account_endpoint_title( $title, $endpoint, $action ) {
  */
 function add_endpoint_content() {
 
-	//wc_installment_emails_get_users_installments();
+	wcie_get_user_installments();
 
 	echo '<p>things!</p>';
 }
