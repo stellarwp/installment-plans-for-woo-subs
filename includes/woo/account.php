@@ -24,6 +24,7 @@ add_action( 'woocommerce_before_account_navigation', __NAMESPACE__ . '\add_endpo
 add_filter( 'woocommerce_account_menu_items', __NAMESPACE__ . '\add_endpoint_menu_item' );
 add_filter( 'woocommerce_account_menu_item_classes', __NAMESPACE__ . '\maybe_add_active_class', 10, 2 );
 add_filter( 'woocommerce_endpoint_installment-plans_title', __NAMESPACE__ . '\change_account_endpoint_title', 10, 3 );
+add_filter( 'woocommerce_endpoint_view-subscription_title', __NAMESPACE__ . '\change_single_view_title', 30, 3 );
 add_action( 'woocommerce_account_installment-plans_endpoint', __NAMESPACE__ . '\add_endpoint_content' );
 
 /**
@@ -95,9 +96,6 @@ function add_endpoint_menu_item( $menu_items ) {
 
 	// Set up our menu item title.
 	$menu_title = apply_filters( Core\HOOK_PREFIX . 'endpoint_menu_title', __( 'Installment Plans', 'woocommerce-installment-emails' ), $menu_items );
-
-	// Add it to the array.
-	// $set_items  = wp_parse_args( array( Core\FRONT_VAR => esc_attr( $menu_title ) ), $items );
 
 	// Add our menu item after the Subscription tab if it exists.
 	if ( array_key_exists( 'subscriptions', $menu_items ) ) {
@@ -175,7 +173,7 @@ function change_endpoint_title( $title ) {
 }
 
 /**
- * Hooks onto `woocommerce_endpoint_{$endpoint}_title` to return the correct page title for subscription endpoints
+ * Hooks onto `woocommerce_endpoint_{$endpoint}_title` to return the correct page title for the installment endpoints
  * in My Account.
  *
  * @param  string $title     Default title.
@@ -190,6 +188,45 @@ function change_account_endpoint_title( $title, $endpoint, $action ) {
 	return apply_filters( Core\HOOK_PREFIX . 'endpoint_page_title', __( 'Installment Plans', 'woocommerce-installment-emails' ), $title, $action );
 }
 
+
+/**
+ * Hooks onto `woocommerce_endpoint_{$endpoint}_title` to return the correct page title for an individual installment
+ * in My Account.
+ *
+ * We run this after Subscriptions does so we can change the ones that apply to us.
+ *
+ * @param  string $title     Default title.
+ * @param  string $endpoint  Endpoint key.
+ * @param  string $action    Optional action or variation within the endpoint.
+ *
+ * @return string
+ */
+function change_single_view_title( $title, $endpoint, $action ) {
+
+	// Call the global.
+	global $wp;
+
+	// Check for a subscription.
+	$is_single_subscription = wcs_get_subscription( $wp->query_vars['view-subscription'] );
+
+	// If we don't have it, return whatever it was.
+	if ( empty( $is_single_subscription ) ) {
+		return $title;
+	}
+
+	// Check for the installment being there.
+	$maybe_has_installments = Helpers\maybe_order_has_installments( $is_single_subscription, false );
+
+	// If we have installments, swap our title.
+	if ( false !== $maybe_has_installments ) {
+		// translators: placeholder is a subscription ID.
+		$title = sprintf( _x( 'Installment Plan #%s', 'hash before order number', 'woocommerce-installment-emails' ), $is_single_subscription->get_order_number() );
+	}
+
+	// Return the title.
+	return $title;
+}
+
 /**
  * Add the content for our endpoint to display.
  *
@@ -197,7 +234,14 @@ function change_account_endpoint_title( $title, $endpoint, $action ) {
  */
 function add_endpoint_content() {
 
-	wcie_get_user_installments();
+	// Return the WC template setup.
+	wc_get_template(
+		'my-account/subscriptions-list.php',
+		array(
+			'subscriptions'  => wcie_get_user_installments(),
+		),
+		'',
+		Core\TEMPLATES_PATH . '/'
+	);
 
-	echo '<p>things!</p>';
 }
