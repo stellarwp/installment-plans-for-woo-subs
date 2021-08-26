@@ -23,9 +23,10 @@ add_filter( 'the_title', __NAMESPACE__ . '\change_endpoint_title', 11, 1 );
 add_action( 'woocommerce_before_account_navigation', __NAMESPACE__ . '\add_endpoint_notices', 15 );
 add_filter( 'woocommerce_account_menu_items', __NAMESPACE__ . '\add_endpoint_menu_item' );
 add_filter( 'woocommerce_account_menu_item_classes', __NAMESPACE__ . '\maybe_add_active_class', 10, 2 );
-add_filter( 'woocommerce_endpoint_installment-plans_title', __NAMESPACE__ . '\change_account_endpoint_title', 10, 3 );
+add_filter( 'woocommerce_endpoint_installment-plans_title', __NAMESPACE__ . '\change_list_view_title', 10, 3 );
 add_filter( 'woocommerce_endpoint_view-subscription_title', __NAMESPACE__ . '\change_single_view_title', 30, 3 );
 add_action( 'woocommerce_account_installment-plans_endpoint', __NAMESPACE__ . '\add_endpoint_content' );
+add_filter( 'wcs_get_users_subscriptions', __NAMESPACE__ . '\remove_installments_from_list', 20, 2 );
 
 /**
  * Load our front-end side JS and CSS.
@@ -35,7 +36,7 @@ add_action( 'woocommerce_account_installment-plans_endpoint', __NAMESPACE__ . '\
 function load_endpoint_assets() {
 
 	// Bail if we aren't on the right general place.
-	if ( ! Helpers\maybe_account_endpoint_page() ) {
+	if ( ! is_account_page() ) {
 		return;
 	}
 
@@ -63,7 +64,7 @@ function load_endpoint_assets() {
 function add_endpoint_notices() {
 
 	// Bail if we aren't on the right general place.
-	if ( ! Helpers\maybe_account_endpoint_page() ) {
+	if ( ! Helpers\maybe_installments_endpoint_page() ) {
 		return;
 	}
 
@@ -128,7 +129,7 @@ function add_endpoint_menu_item( $menu_items ) {
 function maybe_add_active_class( $classes, $endpoint ) {
 
 	// Bail if we aren't on the right general place.
-	if ( ! Helpers\maybe_account_endpoint_page() ) {
+	if ( ! Helpers\maybe_installments_endpoint_page() ) {
 		return $classes;
 	}
 
@@ -182,12 +183,11 @@ function change_endpoint_title( $title ) {
  *
  * @return string
  */
-function change_account_endpoint_title( $title, $endpoint, $action ) {
+function change_list_view_title( $title, $endpoint, $action ) {
 
 	// Return ours, filtered.
 	return apply_filters( Core\HOOK_PREFIX . 'endpoint_page_title', __( 'Installment Plans', 'woocommerce-installment-emails' ), $title, $action );
 }
-
 
 /**
  * Hooks onto `woocommerce_endpoint_{$endpoint}_title` to return the correct page title for an individual installment
@@ -234,14 +234,58 @@ function change_single_view_title( $title, $endpoint, $action ) {
  */
 function add_endpoint_content() {
 
+	// Get the installments.
+	$get_installments   = wcie_get_user_installments();
+
+	// Set our template name.
+	$set_template_name  = ! empty( $get_installments ) ? 'my-account/installments-list.php' : 'my-account/no-installments.php';
+
 	// Return the WC template setup.
 	wc_get_template(
-		'my-account/subscriptions-list.php',
-		array(
-			'subscriptions'  => wcie_get_user_installments(),
-		),
+		$set_template_name,
+		array( 'installments' => $get_installments ),
 		'',
 		Core\TEMPLATES_PATH . '/'
 	);
 
+}
+
+/**
+ * Remove installment items from the main subscriptions list.
+ *
+ * @param  array   $subscriptions  The existing subscriptions.
+ * @param  integer $user_id        The user being listed.
+ *
+ * @return array                   The potentially modified array.
+ */
+function remove_installments_from_list( $subscriptions, $user_id ) {
+
+	// Immediately bail if this is on the admin side
+	// or isn't on the actual account page.
+	if ( is_admin() || ! is_account_page() ) {
+		return $subscriptions;
+	}
+
+	// Return the empty array if that is what we were provided.
+	if ( empty( $subscriptions ) ) {
+		return $subscriptions;
+	}
+
+	// Now loop and check our meta key.
+	foreach ( $subscriptions as $subscription_id => $subscription_obj ) {
+
+		// Check the meta.
+		$maybe_has  = get_post_meta( $subscription_id, '_order_has_installments', true );
+
+		// Skip if it isn't in the array.
+		if ( empty( $maybe_has ) || 'yes' !== sanitize_text_field( $maybe_has ) ) {
+			continue;
+		}
+
+		// Remove this one from the overall array.
+		unset( $subscriptions[ $subscription_id ] );
+	}
+
+	// And return this.
+	return $subscriptions;
 }

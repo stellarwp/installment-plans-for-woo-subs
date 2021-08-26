@@ -86,32 +86,6 @@ function maybe_store_has_installments() {
 }
 
 /**
- * Check if we are on the account privacy data page.
- *
- * @param  boolean $in_query  Whether to check inside the actual query.
- *
- * @return boolean
- */
-function maybe_account_endpoint_page( $in_query = false ) {
-
-	// Bail if we aren't on the right general place.
-	if ( is_admin() || ! is_account_page() ) {
-		return false;
-	}
-
-	// Bail if we aren't on the right general place.
-	if ( $in_query && ! in_the_loop() || $in_query && ! is_main_query() ) {
-		return false;
-	}
-
-	// Call the global query object.
-	global $wp_query;
-
-	// Return if we are on our specific var or not.
-	return isset( $wp_query->query_vars[ Core\FRONT_VAR ] ) ? true : false;
-}
-
-/**
  * Check all the products in an order for installments.
  *
  * @param  WC_Order $order          The entire order object.
@@ -155,6 +129,58 @@ function maybe_order_has_installments( $order, $return_length = true ) {
 
 	// Return false since it was not found.
 	return false;
+}
+
+/**
+ * Check if we are on the installments plan page.
+ *
+ * @param  boolean $in_query  Whether to check inside the actual query.
+ *
+ * @return boolean
+ */
+function maybe_installments_endpoint_page( $in_query = false ) {
+
+	// Bail if we aren't on the right general place.
+	if ( is_admin() || ! is_account_page() ) {
+		return false;
+	}
+
+	// Bail if we aren't on the right general place.
+	if ( $in_query && ! in_the_loop() || $in_query && ! is_main_query() ) {
+		return false;
+	}
+
+	// Call the global query object.
+	global $wp_query;
+
+	// Return if we are on our specific var or not.
+	return isset( $wp_query->query_vars[ Core\FRONT_VAR ] ) ? true : false;
+}
+
+/**
+ * Check if we are on the subscriptions plan page.
+ *
+ * @param  boolean $in_query  Whether to check inside the actual query.
+ *
+ * @return boolean
+ */
+function maybe_subscriptions_endpoint_page( $in_query = false ) {
+
+	// Bail if we aren't on the right general place.
+	if ( is_admin() || ! is_account_page() ) {
+		return false;
+	}
+
+	// Bail if we aren't on the right general place.
+	if ( $in_query && ! in_the_loop() || $in_query && ! is_main_query() ) {
+		return false;
+	}
+
+	// Call the global query object.
+	global $wp_query;
+
+	// Return if we are on our specific var or not.
+	return isset( $wp_query->query_vars['subscriptions'] ) ? true : false;
 }
 
 /**
