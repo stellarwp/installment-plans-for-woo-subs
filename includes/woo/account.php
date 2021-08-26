@@ -203,12 +203,16 @@ function add_endpoint_content() {
 	// Set our template name.
 	$set_template_name  = ! empty( $get_installments ) ? 'my-account/installments-list.php' : 'my-account/no-installments.php';
 
+	// Run it through a filter for others to change.
+	$set_template_name  = apply_filters( Core\HOOK_PREFIX . 'endpoint_page_content_template_name', $set_template_name, $get_installments );
+	$set_template_path  = apply_filters( Core\HOOK_PREFIX . 'endpoint_page_content_template_path', Core\TEMPLATES_PATH . '/' );
+
 	// Return the WC template setup.
 	wc_get_template(
 		$set_template_name,
 		array( 'installments' => $get_installments ),
 		'',
-		Core\TEMPLATES_PATH . '/'
+		$set_template_path
 	);
 
 }
