@@ -68,37 +68,37 @@ function add_woo_query_vars( $query_vars ) {
  */
 function remove_installments_from_list( $subscriptions, $user_id ) {
 
-    // Immediately bail if this is on the admin side
-    // or isn't on the actual account page.
-    if ( is_admin() || ! is_account_page() ) {
-        return $subscriptions;
-    }
+	// Immediately bail if this is on the admin side
+	// or isn't on the actual account page.
+	if ( is_admin() || ! is_account_page() ) {
+		return $subscriptions;
+	}
 
-    // Allow this filter to be disabled.
-    if ( false !== apply_filters( Core\HOOK_PREFIX . 'disable_subscriptions_list_filter', false ) ) {
-        return $subscriptions;
-    }
+	// Allow this filter to be disabled.
+	if ( false !== apply_filters( Core\HOOK_PREFIX . 'disable_subscriptions_list_filter', false ) ) {
+		return $subscriptions;
+	}
 
-    // Return the empty array if that is what we were provided.
-    if ( empty( $subscriptions ) ) {
-        return $subscriptions;
-    }
+	// Return the empty array if that is what we were provided.
+	if ( empty( $subscriptions ) ) {
+		return $subscriptions;
+	}
 
-    // Now loop and check our meta key.
-    foreach ( $subscriptions as $subscription_id => $subscription_obj ) {
+	// Now loop and check our meta key.
+	foreach ( $subscriptions as $subscription_id => $subscription_obj ) {
 
-        // Check the meta.
-        $maybe_has  = get_post_meta( $subscription_id, '_order_has_installments', true );
+		// Check the meta.
+		$maybe_has  = get_post_meta( $subscription_id, '_order_has_installments', true );
 
-        // Skip if it isn't in the array.
-        if ( empty( $maybe_has ) || 'yes' !== sanitize_text_field( $maybe_has ) ) {
-            continue;
-        }
+		// Skip if it isn't in the array.
+		if ( empty( $maybe_has ) || 'yes' !== sanitize_text_field( $maybe_has ) ) {
+			continue;
+		}
 
-        // Remove this one from the overall array.
-        unset( $subscriptions[ $subscription_id ] );
-    }
+		// Remove this one from the overall array.
+		unset( $subscriptions[ $subscription_id ] );
+	}
 
-    // And return this.
-    return $subscriptions;
+	// And return this.
+	return $subscriptions;
 }

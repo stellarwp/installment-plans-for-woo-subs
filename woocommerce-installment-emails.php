@@ -67,6 +67,7 @@ function nx_woo_installment_emails_file_load() {
 	require_once __DIR__ . '/includes/woo/orders.php';
 	require_once __DIR__ . '/includes/woo/email.php';
 	require_once __DIR__ . '/includes/woo/account.php';
+    require_once __DIR__ . '/includes/woo/admin.php';
 
 	// Load the triggered file loads.
 	require_once __DIR__ . '/includes/activate.php';
