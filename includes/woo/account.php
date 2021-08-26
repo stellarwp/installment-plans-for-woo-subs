@@ -18,9 +18,8 @@ use Nexcess\WooInstallmentEmails\Utilities as Utilities;
 /**
  * Start our engines.
  */
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\load_endpoint_assets' );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\load_storefront_inline_css', 30 );
 add_filter( 'the_title', __NAMESPACE__ . '\change_endpoint_title', 11, 1 );
-add_action( 'woocommerce_before_account_navigation', __NAMESPACE__ . '\add_endpoint_notices', 15 );
 add_filter( 'woocommerce_account_menu_items', __NAMESPACE__ . '\add_endpoint_menu_item' );
 add_filter( 'woocommerce_account_menu_item_classes', __NAMESPACE__ . '\maybe_add_active_class', 10, 2 );
 add_filter( 'woocommerce_endpoint_installment-plans_title', __NAMESPACE__ . '\change_list_view_title', 10, 3 );
@@ -29,56 +28,20 @@ add_action( 'woocommerce_account_installment-plans_endpoint', __NAMESPACE__ . '\
 add_filter( 'wcs_get_users_subscriptions', __NAMESPACE__ . '\remove_installments_from_list', 20, 2 );
 
 /**
- * Load our front-end side JS and CSS.
+ * Load the inline CSS for the sidebar in Storefront.
  *
  * @return void
  */
-function load_endpoint_assets() {
+function load_storefront_inline_css() {
 
-	// Bail if we aren't on the right general place.
-	if ( ! is_account_page() ) {
-		return;
-	}
+	// Set my CSS.
+	$add_theme_icon = 'body.theme-storefront ul li.woocommerce-MyAccount-navigation-link--installment-plans a:before { content: "\f560"; }';
 
-	// Set my handle.
-	$handle = 'nx-wc-installments-account';
+	// Now run it through a filter.
+	$set_custom_css = apply_filters( Core\HOOK_PREFIX . 'inline_css', $add_theme_icon );
 
-	// Set a file suffix structure based on whether or not we want a minified version.
-	$file   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? $handle : $handle . '.min';
-
-	// Set a version for whether or not we're debugging.
-	$vers   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : Core\VERS;
-
-	// Load our CSS file.
-	wp_enqueue_style( $handle, Core\ASSETS_URL . '/css/' . $file . '.css', false, $vers, 'all' );
-
-	// And our JS.
-	wp_enqueue_script( $handle, Core\ASSETS_URL . '/js/' . $file . '.js', array( 'jquery' ), $vers, true );
-}
-
-/**
- * Add the notices above the "my account" area.
- *
- * @return HTML
- */
-function add_endpoint_notices() {
-
-	// Bail if we aren't on the right general place.
-	if ( ! Helpers\maybe_installments_endpoint_page() ) {
-		return;
-	}
-
-	// Bail without our result flag.
-	if ( empty( $_GET['nx-installments-action'] ) ) {
-
-		// Echo out the blank placeholder for Ajax calls.
-		echo '<div class="nx-woo-installment-plans-notices"></div>';
-
-		// And just be done.
-		return;
-	}
-
-	// Some messages will show here. probably.
+	// And now load it inline.
+	wp_add_inline_style( 'storefront-style', $set_custom_css );
 }
 
 /**
