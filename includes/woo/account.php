@@ -25,7 +25,6 @@ add_filter( 'woocommerce_account_menu_item_classes', __NAMESPACE__ . '\maybe_add
 add_filter( 'woocommerce_endpoint_installment-plans_title', __NAMESPACE__ . '\change_list_view_title', 10, 3 );
 add_filter( 'woocommerce_endpoint_view-subscription_title', __NAMESPACE__ . '\change_single_view_title', 30, 3 );
 add_action( 'woocommerce_account_installment-plans_endpoint', __NAMESPACE__ . '\add_endpoint_content' );
-add_filter( 'wcs_get_users_subscriptions', __NAMESPACE__ . '\remove_installments_from_list', 20, 2 );
 
 /**
  * Load the inline CSS for the sidebar in Storefront.
@@ -203,56 +202,21 @@ function add_endpoint_content() {
 	// Set our template name.
 	$set_template_name  = ! empty( $get_installments ) ? 'my-account/installments-list.php' : 'my-account/no-installments.php';
 
+	// Set up our args in an array.
+	$set_template_args  = array(
+		'name' => $set_template_name,
+		'path' => Core\TEMPLATES_PATH . '/'
+	);
+
 	// Run it through a filter for others to change.
-	$set_template_name  = apply_filters( Core\HOOK_PREFIX . 'endpoint_page_content_template_name', $set_template_name, $get_installments );
-	$set_template_path  = apply_filters( Core\HOOK_PREFIX . 'endpoint_page_content_template_path', Core\TEMPLATES_PATH . '/' );
+	$set_template_args  = apply_filters( Core\HOOK_PREFIX . 'endpoint_page_content_template_args', $set_template_args, $get_installments );
 
 	// Return the WC template setup.
 	wc_get_template(
-		$set_template_name,
+		$set_template_args['name'],
 		array( 'installments' => $get_installments ),
 		'',
-		$set_template_path
+		$set_template_args['path']
 	);
 
-}
-
-/**
- * Remove installment items from the main subscriptions list.
- *
- * @param  array   $subscriptions  The existing subscriptions.
- * @param  integer $user_id        The user being listed.
- *
- * @return array                   The potentially modified array.
- */
-function remove_installments_from_list( $subscriptions, $user_id ) {
-
-	// Immediately bail if this is on the admin side
-	// or isn't on the actual account page.
-	if ( is_admin() || ! is_account_page() ) {
-		return $subscriptions;
-	}
-
-	// Return the empty array if that is what we were provided.
-	if ( empty( $subscriptions ) ) {
-		return $subscriptions;
-	}
-
-	// Now loop and check our meta key.
-	foreach ( $subscriptions as $subscription_id => $subscription_obj ) {
-
-		// Check the meta.
-		$maybe_has  = get_post_meta( $subscription_id, '_order_has_installments', true );
-
-		// Skip if it isn't in the array.
-		if ( empty( $maybe_has ) || 'yes' !== sanitize_text_field( $maybe_has ) ) {
-			continue;
-		}
-
-		// Remove this one from the overall array.
-		unset( $subscriptions[ $subscription_id ] );
-	}
-
-	// And return this.
-	return $subscriptions;
 }
