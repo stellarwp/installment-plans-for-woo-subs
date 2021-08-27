@@ -17,8 +17,10 @@ use Nexcess\WooInstallmentEmails\Utilities as Utilities;
  * Start our engines.
  */
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\load_admin_inline_css', 30 );
-add_filter( 'manage_edit-shop_subscription_columns', __NAMESPACE__ . '\add_installment_column', 30 );
-add_action( 'manage_shop_subscription_posts_custom_column', __NAMESPACE__ . '\render_installment_column', 20, 2 );
+add_filter( 'manage_edit-shop_subscription_columns', __NAMESPACE__ . '\add_installment_column_to_subscriptions', 30 );
+add_action( 'manage_shop_subscription_posts_custom_column', __NAMESPACE__ . '\render_installment_column_content', 20, 2 );
+add_filter( 'product_type_selector', __NAMESPACE__ . '\add_installments_to_product_select', 40 );
+add_filter( 'woocommerce_subscriptions_order_type_dropdown', __NAMESPACE__ . '\add_installments_to_order_select', 40 );
 
 /**
  * Add our small bit of inline CSS to the admin.
@@ -46,10 +48,20 @@ function load_admin_inline_css() {
  *
  * @return array
  */
-function add_installment_column( $existing_columns ) {
+function add_installment_column_to_subscriptions( $existing_columns ) {
 
-	// Set our custom column in our handy array fixer.
-	return wcie_array_insert_after( 'end_date', $existing_columns, 'is_installment', __( 'Installments', 'woocommerce-installment-emails' ) );
+	// If we have the specific item in the array, add it there.
+	if ( isset( $existing_columns['end_date'] ) ) {
+
+		// Set our custom column in our handy array fixer.
+		return wcie_array_insert_after( 'end_date', $existing_columns, 'is_installment', __( 'Installments', 'woocommerce-installment-emails' ) );
+	}
+
+	// Didn't have it, so just drop it on the end.
+	$existing_columns['is_installment'] = __( 'Installments', 'woocommerce-installment-emails' );
+
+	// And return it.
+	return $existing_columns;
 }
 
 /**
@@ -60,7 +72,7 @@ function add_installment_column( $existing_columns ) {
  *
  * @return HTML
  */
-function render_installment_column( $column_name, $post_id ) {
+function render_installment_column_content( $column_name, $post_id ) {
 
 	// We only wanna do this on our column name.
 	if ( 'is_installment' !== sanitize_text_field( $column_name ) ) {
@@ -75,4 +87,50 @@ function render_installment_column( $column_name, $post_id ) {
 		echo '<span class="wc-installment-admin-icon"><i class="dashicons dashicons-yes"></i></span>';
 	}
 
+}
+
+/**
+ * Add the 'installments' product type to the WooCommerce product type select box.
+ *
+ * @param  array $product_types  Existing array of the product types.
+ *
+ * @return array                 The modified array.
+ */
+function add_installments_to_product_select( $product_types ) {
+
+	// Add ours to the dropdown.
+	if ( ! isset( $product_types['installments'] ) ) {
+		$product_types['installments'] = __( 'Installment Plans', 'woocommerce-installment-emails' );
+	}
+
+	// And return the array.
+	return $product_types;
+}
+
+/**
+ * Add the 'installments' type to the WooCommerce orders type select box.
+ *
+ * @param  array $order_types  Existing array of the order types.
+ *
+ * @return array                 The modified array.
+ */
+function add_installments_to_order_select( $order_types ) {
+
+	// If this already exists for some reason, bail.
+	if ( isset( $order_types['installments'] ) ) {
+		return $order_types;
+	}
+
+	// If we have the specific item in the array, add it there.
+	if ( isset( $order_types['switch'] ) ) {
+
+		// Set our custom column in our handy array fixer.
+		return wcie_array_insert_after( 'switch', $order_types, 'installments', __( 'Installment Plans', 'woocommerce-installment-emails' ) );
+	}
+
+	// Now add this to the order types.
+	$order_types['installments'] = __( 'Installment Plans', 'woocommerce-installment-emails' );
+
+	// And return it.
+	return $order_types;
 }

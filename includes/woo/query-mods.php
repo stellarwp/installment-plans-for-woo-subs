@@ -20,6 +20,8 @@ add_action( 'init', __NAMESPACE__ . '\add_installments_rewrite_endpoint' );
 add_filter( 'query_vars', __NAMESPACE__ . '\add_installments_endpoint_vars', 0 );
 add_filter( 'woocommerce_get_query_vars', __NAMESPACE__ . '\add_woo_query_vars' );
 add_filter( 'wcs_get_users_subscriptions', __NAMESPACE__ . '\remove_installments_from_list', 20, 2 );
+add_filter( 'request', __NAMESPACE__ . '\modify_installment_product_queries', 21 );
+add_filter( 'request', __NAMESPACE__ . '\modify_installment_order_queries', 21 );
 
 /**
  * Register new endpoint to use inside My Account page.
@@ -101,4 +103,72 @@ function remove_installments_from_list( $subscriptions, $user_id ) {
 
 	// And return this.
 	return $subscriptions;
+}
+
+/**
+ * Modifies the main query on the WooCommerce products screen to correctly handle filtering by installments.
+ *
+ * @param  array $query_vars The existing array of query vars for the admin.
+ *
+ * @return array $query_vars
+ */
+function modify_installment_product_queries( $query_vars ) {
+
+	// Pull in the globals we need.
+	global $pagenow, $typenow;
+
+	// Do our basic check.
+	if ( ! is_admin() || 'edit.php' !== $pagenow || 'product' !== $typenow ) {
+		return $query_vars;
+	}
+
+	// Make sure we have a product type to check against.
+	$current_product_type = isset( $_REQUEST['product_type'] ) ? wc_clean( wp_unslash( $_REQUEST['product_type'] ) ) : false;
+
+	// Bail if we didn't request installments.
+	if ( ! $current_product_type || 'installments' !== $current_product_type ) {
+		return $query_vars;
+	}
+
+	// Now we set the vars to include our meta key
+	// and put the product type back to subscriptions.
+	$query_vars['meta_value']   = 'yes';
+	$query_vars['meta_key']     = '_is_installments';
+	$query_vars['product_type'] = array( 'subscription', 'variable-subscription' );
+
+	// And return the updated vars.
+	return $query_vars;
+}
+
+/**
+ * Modifies the main query on the WooCommerce orders screen to correctly handle filtering by installments.
+ *
+ * @param  array $query_vars The existing array of query vars for the admin.
+ *
+ * @return array $query_vars
+ */
+function modify_installment_order_queries( $query_vars ) {
+
+	// Pull in the globals we need.
+	global $pagenow, $typenow, $wpdb;
+
+	// Do our basic check.
+	if ( ! is_admin() || 'edit.php' !== $pagenow || 'shop_order' !== $typenow ) {
+		return $query_vars;
+	}
+
+	// Make sure we have a product type to check against.
+	$maybe_sub_type = isset( $_GET['shop_order_subtype'] ) ? wc_clean( wp_unslash( $_GET['shop_order_subtype'] ) ) : false;
+
+	// Bail if we didn't request installments.
+	if ( ! $maybe_sub_type || 'installments' !== $maybe_sub_type ) {
+		return $query_vars;
+	}
+
+	// Now we set the vars to include our meta key and value.
+	$query_vars['meta_value']   = 'yes';
+	$query_vars['meta_key']     = '_order_has_installments';
+
+	// And return the updated vars.
+	return $query_vars;
 }
