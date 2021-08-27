@@ -82,11 +82,13 @@ function render_installment_column_content( $column_name, $post_id ) {
 	// Check the meta.
 	$maybe_has  = get_post_meta( $post_id, '_order_has_installments', true );
 
-	// Echo out the icon if we have it.
-	if ( ! empty( $maybe_has ) && 'yes' === sanitize_text_field( $maybe_has ) ) {
-		echo '<span class="wc-installment-admin-icon"><i class="dashicons dashicons-yes"></i></span>';
+	// Bail if we don't have a "yes".
+	if ( empty( $maybe_has ) || 'yes' !== sanitize_text_field( $maybe_has ) ) {
+		return;
 	}
 
+	// Just echo out the checkmark.
+	echo '<span class="wc-installment-admin-icon"><i class="dashicons dashicons-yes"></i></span>';
 }
 
 /**
