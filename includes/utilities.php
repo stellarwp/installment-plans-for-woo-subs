@@ -57,25 +57,36 @@ function wcie_get_email_content_args( $subscription, $order ) {
  *
  * @return array              The new array if the $needle key exists, otherwise an unmodified $haystack
  */
-function wcie_array_insert_after( $needle, $haystack, $new_key, $new_value ) {
+function wcie_array_insert_after( $needle = '', $haystack = array(), $new_key = '', $new_value ) {
 
-	if ( array_key_exists( $needle, $haystack ) ) {
-
-		$new_array = array();
-
-		foreach ( $haystack as $key => $value ) {
-
-			$new_array[ $key ] = $value;
-
-			if ( $key === $needle ) {
-				$new_array[ $new_key ] = $new_value;
-			}
-		}
-
-		return $new_array;
+	// If any required parts are missing, or the
+	// haystack isn't an array, return the whole thing.
+	if ( empty( $needle ) || empty( $haystack ) || empty( $new_key ) || ! is_array( $haystack ) ) {
+		return $haystack;
 	}
 
-	return $haystack;
+	// The array key didn't exist, so return the haystack.
+	if ( ! array_key_exists( $needle, $haystack ) ) {
+		return $haystack;
+	}
+
+	// Set our merged array.
+	$merged_array   = array();
+
+	// Loop the haystack and find our key.
+	foreach ( $haystack as $haystack_key => $haystack_value ) {
+
+		// Set the new array.
+		$merged_array[ $haystack_key ] = $haystack_value;
+
+		// If this key is our entry point, add it.
+		if ( $haystack_key === $needle ) {
+			$merged_array[ $new_key ] = $new_value;
+		}
+	}
+
+	// Return the resulting array.
+	return $merged_array;
 }
 
 /**
