@@ -30,12 +30,12 @@ add_filter( 'woocommerce_subscriptions_order_type_dropdown', __NAMESPACE__ . '\a
 function load_admin_inline_css() {
 
 	// Set my CSS.
-	$add_admin_css  = 'table.wp-list-table th.column-is_installment { text-align: center; }';
-	$add_admin_css .= 'span.wc-installment-admin-icon { display: block; text-align: center; }';
-	$add_admin_css .= 'span.wc-installment-admin-icon .dashicons { font-size: 32px; height: 32px; width: 32px; }';
+	$set_admin_css  = 'table.wp-list-table th.column-is_installment { text-align: center; }';
+	$set_admin_css .= 'span.wc-installment-admin-icon { display: block; text-align: center; }';
+	$set_admin_css .= 'span.wc-installment-admin-icon .dashicons { font-size: 32px; height: 32px; width: 32px; }';
 
 	// Now run it through a filter.
-	$set_custom_css = apply_filters( Core\HOOK_PREFIX . 'inline_admin_css', $add_admin_css );
+	$set_custom_css = apply_filters( Core\HOOK_PREFIX . 'inline_admin_css', $set_admin_css );
 
 	// And now load it inline.
 	wp_add_inline_style( 'woocommerce_subscriptions_admin', $set_custom_css );

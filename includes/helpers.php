@@ -201,7 +201,7 @@ function get_order_email_template_args( $order_id = 0, $order, $plaintext = fals
 	);
 
 	// Now get the meta for our flag.
-	$installments   = get_post_meta( $order_id, '_order_has_installments', true );
+	$installments   = get_post_meta( absint( $order_id ), '_order_has_installments', true );
 
 	// If we have installments, use our own template setup.
 	if ( ! empty( $installments ) && 'yes' === sanitize_text_field( $installments ) ) {
