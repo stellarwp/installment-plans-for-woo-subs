@@ -22,11 +22,12 @@ use Nexcess\WooInstallmentEmails\Helpers as Helpers;
 function wcie_get_email_content_args( $subscription, $order ) {
 
 	// Begin by handling all our various calculations and meta pulls.
+	$get_single_count   = get_post_meta( $order->get_id(), '_order_installment_count', true );
 
 	// Set our single total and increment.
 	$set_single_increm  = Helpers\add_ordinal_suffix( $subscription->get_payment_count() );
 	$set_single_total   = wc_price( $subscription->get_total(), array( 'currency' => $subscription->get_currency() ) );
-	$set_single_count   = get_post_meta( $order->get_id(), '_order_installment_count', true );
+	$set_single_count   = ! empty( $get_single_count ) ? $get_single_count : 0;
 
 	// Calculate the total cost.
 	$calc_instalm_total = absint( $subscription->get_total() ) * absint( $set_single_count );

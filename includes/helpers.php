@@ -100,14 +100,27 @@ function maybe_order_has_installments( $order, $return_length = true ) {
 		return false;
 	}
 
+	// Attempt to get our items.
+	$fetch_order_items  = $order->get_items();
+
+	// Bail if there are no items in the order.
+	if ( empty( $fetch_order_items ) ) {
+		return false;
+	}
+
 	// Now loop them and check the meta.
-	foreach ( $order->get_items() as $item_id => $item_values ) {
+	foreach ( $fetch_order_items as $item_id => $item_values ) {
 
 		// Get the product ID.
 		$product_id = $item_values->get_product_id();
 
+		// Skip to the next if no ID exists.
+		if ( empty( $product_id ) ) {
+			continue;
+		}
+
 		// Now check for the meta key.
-		$maybe_key  = get_post_meta( $product_id, '_is_installments', true );
+		$maybe_key  = get_post_meta( absint( $product_id ), '_is_installments', true );
 
 		// If we have it, return true (and we're done).
 		if ( ! empty( $maybe_key ) && 'yes' === sanitize_text_field( $maybe_key ) ) {

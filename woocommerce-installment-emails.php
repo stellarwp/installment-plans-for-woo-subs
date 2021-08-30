@@ -40,9 +40,7 @@ define( __NAMESPACE__ . '\TEMPLATES_PATH', __DIR__ . '/templates' );
 
 // Set the various prefixes for our actions and filters.
 define( __NAMESPACE__ . '\HOOK_PREFIX', 'wc_installment_emails_' );
-define( __NAMESPACE__ . '\NONCE_PREFIX', 'woo_insteml_nonce_' );
 define( __NAMESPACE__ . '\TRANSIENT_PREFIX', 'wcinsteml_tr_' );
-define( __NAMESPACE__ . '\OPTION_PREFIX', 'woo_insteml_setting_' );
 
 // Set our front menu endpoint constant.
 define( __NAMESPACE__ . '\FRONT_VAR', 'installment-plans' );
