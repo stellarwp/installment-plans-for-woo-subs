@@ -219,4 +219,5 @@ function add_endpoint_content() {
 		$set_template_args['path']
 	);
 
+	// Nothing left.
 }
