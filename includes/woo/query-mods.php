@@ -166,8 +166,8 @@ function modify_installment_order_queries( $query_vars ) {
 	}
 
 	// Now we set the vars to include our meta key and value.
-	$query_vars['meta_value']   = 'yes';
-	$query_vars['meta_key']     = '_order_has_installments';
+	$query_vars['meta_value'] = 'yes';
+	$query_vars['meta_key']   = '_order_has_installments';
 
 	// And return the updated vars.
 	return $query_vars;
