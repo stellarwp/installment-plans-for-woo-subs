@@ -29,7 +29,12 @@ function activate() {
 	// Include our action so that we may add to this later.
 	do_action( Core\HOOK_PREFIX . 'after_activate_process' );
 
+	// Set our initial option flag.
+	update_option( Core\OPTION_PREFIX . 'activation_complete', 'no', false );
+
 	// And flush our rewrite rules.
+	// We do run this again later, but twice
+	// seems to be required.
 	flush_rewrite_rules();
 }
 register_activation_hook( Core\FILE, __NAMESPACE__ . '\activate' );

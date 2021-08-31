@@ -16,12 +16,35 @@ use Nexcess\WooInstallmentEmails as Core;
 /**
  * Start our engines.
  */
+add_action( 'init', __NAMESPACE__ . '\maybe_finish_installments_setup' );
 add_action( 'init', __NAMESPACE__ . '\add_installments_rewrite_endpoint' );
 add_filter( 'query_vars', __NAMESPACE__ . '\add_installments_endpoint_vars', 0 );
 add_filter( 'woocommerce_get_query_vars', __NAMESPACE__ . '\add_woo_query_vars' );
 add_filter( 'wcs_get_users_subscriptions', __NAMESPACE__ . '\remove_installments_from_list', 20, 2 );
 add_filter( 'request', __NAMESPACE__ . '\modify_installment_product_queries', 21 );
 add_filter( 'request', __NAMESPACE__ . '\modify_installment_order_queries', 21 );
+
+/**
+ * Check to see if we've finished our setup.
+ *
+ * @return void
+ */
+function maybe_finish_installments_setup() {
+
+	// Grab our option flag.
+	$has_completed  = get_option( Core\OPTION_PREFIX . 'activation_complete', false );
+
+	// It's there and flagged as "yes", so we're done.
+	if ( ! empty( $has_completed ) && 'yes' === sanitize_text_field( $has_completed ) ) {
+		return;
+	}
+
+	// It's not there, or isn't a yes, so flush the rules.
+	flush_rewrite_rules();
+
+	// Update the option.
+	update_option( Core\OPTION_PREFIX . 'activation_complete', 'yes', false );
+}
 
 /**
  * Register new endpoint to use inside My Account page.
