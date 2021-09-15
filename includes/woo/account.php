@@ -193,10 +193,18 @@ function add_endpoint_content() {
 	// Run it through a filter for others to change.
 	$set_template_args  = apply_filters( Core\HOOK_PREFIX . 'endpoint_page_content_template_args', $set_template_args, $get_installments );
 
+	// Set the text for "no installment plans".
+	$set_emptyitem_link = apply_filters( Core\HOOK_PREFIX . 'no_installments_return_link', wc_get_page_permalink( 'shop' ) );
+	$set_emptyitem_text = apply_filters( Core\HOOK_PREFIX . 'no_installments_return_text', __( 'Browse products', 'installment-plans-for-woo-subs' ) );
+
 	// Return the WC template setup.
 	wc_get_template(
 		$set_template_args['name'],
-		array( 'installments' => $get_installments ),
+		array(
+			'installments'  => $get_installments,
+			'no_items_link' => $set_emptyitem_link,
+			'no_items_text' => $set_emptyitem_text,
+		),
 		'',
 		$set_template_args['path']
 	);
