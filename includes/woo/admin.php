@@ -54,7 +54,7 @@ function add_installment_column_to_subscriptions( $existing_columns ) {
 	if ( isset( $existing_columns['end_date'] ) ) {
 
 		// Set our custom column in our handy array fixer.
-		return wcie_array_insert_after( 'end_date', $existing_columns, 'is_installment', __( 'Installments', 'installment-plans-for-woo-subs' ) );
+		return wcsip_array_insert_after( 'end_date', $existing_columns, 'is_installment', __( 'Installments', 'installment-plans-for-woo-subs' ) );
 	}
 
 	// Didn't have it, so just drop it on the end.
@@ -127,7 +127,7 @@ function add_installments_to_order_select( $order_types ) {
 	if ( isset( $order_types['switch'] ) ) {
 
 		// Set our custom column in our handy array fixer.
-		return wcie_array_insert_after( 'switch', $order_types, 'installments', __( 'Installment Plans', 'installment-plans-for-woo-subs' ) );
+		return wcsip_array_insert_after( 'switch', $order_types, 'installments', __( 'Installment Plans', 'installment-plans-for-woo-subs' ) );
 	}
 
 	// Now add this to the order types.

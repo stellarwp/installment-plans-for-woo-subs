@@ -19,7 +19,7 @@ use Nexcess\InstallmentPlansWooSubs\Helpers as Helpers;
  *
  * @return array
  */
-function wcie_get_email_content_args( $subscription, $order ) {
+function wcsip_get_email_content_args( $subscription, $order ) {
 
 	// Begin by handling all our various calculations and meta pulls.
 	$get_single_count   = get_post_meta( $order->get_id(), '_order_installment_count', true );
@@ -58,7 +58,7 @@ function wcie_get_email_content_args( $subscription, $order ) {
  *
  * @return array              The new array if the $needle key exists, otherwise an unmodified $haystack
  */
-function wcie_array_insert_after( $needle = '', $haystack = array(), $new_key = '', $new_value ) {
+function wcsip_array_insert_after( $needle = '', $haystack = array(), $new_key = '', $new_value ) {
 
 	// If any required parts are missing, or the
 	// haystack isn't an array, return the whole thing.
@@ -98,7 +98,7 @@ function wcie_array_insert_after( $needle = '', $haystack = array(), $new_key = 
  *
  * @return mixed                  Either an array of subscription objects, a count, or false.
  */
-function wcie_get_user_installments( $user_id = 0, $return_count = false ) {
+function wcsip_get_user_installments( $user_id = 0, $return_count = false ) {
 
 	// Make sure we have a user ID before we continue.
 	if ( 0 === $user_id || empty( $user_id ) ) {

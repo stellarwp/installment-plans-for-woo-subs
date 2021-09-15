@@ -22,7 +22,7 @@ function activate() {
 	// Include our action so that we may add to this later.
 	do_action( Core\HOOK_PREFIX . 'before_activate_process' );
 
-	// Do the check for WooCommerce being active.
+	// Do the checks for WooCommerce and Subscriptions both being active.
 	check_active_woo();
 	check_active_woo_subs();
 

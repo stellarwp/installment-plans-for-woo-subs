@@ -44,17 +44,17 @@ function add_endpoint_menu_item( $menu_items ) {
 
 	// Add our menu item after the Subscription tab if it exists.
 	if ( array_key_exists( 'subscriptions', $menu_items ) ) {
-		return wcie_array_insert_after( 'subscriptions', $menu_items, Core\FRONT_VAR, $menu_title );
+		return wcsip_array_insert_after( 'subscriptions', $menu_items, Core\FRONT_VAR, $menu_title );
 	}
 
 	// Add our menu item after the Orders tab if it exists.
 	if ( array_key_exists( 'orders', $menu_items ) ) {
-		return wcie_array_insert_after( 'orders', $menu_items, Core\FRONT_VAR, $menu_title );
+		return wcsip_array_insert_after( 'orders', $menu_items, Core\FRONT_VAR, $menu_title );
 	}
 
 	// Add our menu item after the Logout tab if it exists.
 	if ( array_key_exists( 'customer-logout', $menu_items ) ) {
-		return wcie_array_insert_after( 'customer-logout', $menu_items, Core\FRONT_VAR, $menu_title );
+		return wcsip_array_insert_after( 'customer-logout', $menu_items, Core\FRONT_VAR, $menu_title );
 	}
 
 	// None existed, just throw it on the end.
@@ -179,7 +179,7 @@ function change_single_view_title( $title, $endpoint, $action ) {
 function add_endpoint_content() {
 
 	// Get the installments.
-	$get_installments   = wcie_get_user_installments();
+	$get_installments   = wcsip_get_user_installments();
 
 	// Set our template name.
 	$set_template_name  = ! empty( $get_installments ) ? 'my-account/installments-list.php' : 'my-account/no-installments.php';
