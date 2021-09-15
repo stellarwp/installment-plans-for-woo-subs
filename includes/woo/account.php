@@ -4,44 +4,26 @@
  *
  * Set up the actions that happen inside the admin area.
  *
- * @package WooInstallmentEmails
+ * @package InstallmentPlansWooSubs
  */
 
 // Declare our namespace.
-namespace Nexcess\WooInstallmentEmails\Woo\Emails;
+namespace Nexcess\InstallmentPlansWooSubs\Woo\Emails;
 
 // Set our aliases.
-use Nexcess\WooInstallmentEmails as Core;
-use Nexcess\WooInstallmentEmails\Helpers as Helpers;
-use Nexcess\WooInstallmentEmails\Utilities as Utilities;
+use Nexcess\InstallmentPlansWooSubs as Core;
+use Nexcess\InstallmentPlansWooSubs\Helpers as Helpers;
+use Nexcess\InstallmentPlansWooSubs\Utilities as Utilities;
 
 /**
  * Start our engines.
  */
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\load_storefront_inline_css', 30 );
 add_filter( 'the_title', __NAMESPACE__ . '\change_endpoint_title', 11, 1 );
 add_filter( 'woocommerce_account_menu_items', __NAMESPACE__ . '\add_endpoint_menu_item' );
 add_filter( 'woocommerce_account_menu_item_classes', __NAMESPACE__ . '\maybe_add_active_class', 10, 2 );
 add_filter( 'woocommerce_endpoint_installment-plans_title', __NAMESPACE__ . '\change_list_view_title', 10, 3 );
 add_filter( 'woocommerce_endpoint_view-subscription_title', __NAMESPACE__ . '\change_single_view_title', 30, 3 );
 add_action( 'woocommerce_account_installment-plans_endpoint', __NAMESPACE__ . '\add_endpoint_content' );
-
-/**
- * Load the inline CSS for the sidebar in Storefront.
- *
- * @return void
- */
-function load_storefront_inline_css() {
-
-	// Set my CSS.
-	$add_theme_icon = 'body.theme-storefront ul li.woocommerce-MyAccount-navigation-link--installment-plans a:before { content: "\f560"; }';
-
-	// Now run it through a filter.
-	$set_custom_css = apply_filters( Core\HOOK_PREFIX . 'inline_css', $add_theme_icon );
-
-	// And now load it inline.
-	wp_add_inline_style( 'storefront-style', $set_custom_css );
-}
 
 /**
  * Merge in our new enpoint into the existing "My Account" menu.
@@ -58,7 +40,7 @@ function add_endpoint_menu_item( $menu_items ) {
 	}
 
 	// Set up our menu item title.
-	$menu_title = apply_filters( Core\HOOK_PREFIX . 'endpoint_menu_title', __( 'Installment Plans', 'woocommerce-installment-emails' ), $menu_items );
+	$menu_title = apply_filters( Core\HOOK_PREFIX . 'endpoint_menu_title', __( 'Installment Plans', 'installment-plans-for-woo-subs' ), $menu_items );
 
 	// Add our menu item after the Subscription tab if it exists.
 	if ( array_key_exists( 'subscriptions', $menu_items ) ) {
@@ -122,7 +104,7 @@ function change_endpoint_title( $title ) {
 		if ( isset( $wp_query->query_vars[ Core\FRONT_VAR ] ) ) {
 
 			// Set the title with a filter.
-			$title = apply_filters( Core\HOOK_PREFIX . 'endpoint_page_title', __( 'My Installment Plans', 'woocommerce-installment-emails' ) );
+			$title = apply_filters( Core\HOOK_PREFIX . 'endpoint_page_title', __( 'My Installment Plans', 'installment-plans-for-woo-subs' ) );
 
 			// Unhook after we've returned our title to prevent it from overriding others.
 			remove_filter( 'the_title', __NAMESPACE__ . '\change_endpoint_title', 11 );
@@ -148,7 +130,7 @@ function change_endpoint_title( $title ) {
 function change_list_view_title( $title, $endpoint, $action ) {
 
 	// Return ours, filtered.
-	return apply_filters( Core\HOOK_PREFIX . 'endpoint_page_title', __( 'Installment Plans', 'woocommerce-installment-emails' ), $title, $action );
+	return apply_filters( Core\HOOK_PREFIX . 'endpoint_page_title', __( 'Installment Plans', 'installment-plans-for-woo-subs' ), $title, $action );
 }
 
 /**
@@ -182,7 +164,7 @@ function change_single_view_title( $title, $endpoint, $action ) {
 	// If we have installments, swap our title.
 	if ( false !== $maybe_has_installments ) {
 		// translators: placeholder is a subscription ID.
-		$title = sprintf( _x( 'Installment Plan #%s', 'hash before order number', 'woocommerce-installment-emails' ), $is_single_subscription->get_order_number() );
+		$title = sprintf( _x( 'Installment Plan #%s', 'hash before order number', 'installment-plans-for-woo-subs' ), $is_single_subscription->get_order_number() );
 	}
 
 	// Return the title.

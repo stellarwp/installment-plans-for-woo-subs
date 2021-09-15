@@ -2,14 +2,14 @@
 /**
  * Our uninstall call.
  *
- * @package WooInstallmentEmails
+ * @package InstallmentPlansWooSubs
  */
 
 // Declare our namespace.
-namespace Nexcess\WooInstallmentEmails\Uninstall;
+namespace Nexcess\InstallmentPlansWooSubs\Uninstall;
 
 // Set our aliases.
-use Nexcess\WooInstallmentEmails as Core;
+use Nexcess\InstallmentPlansWooSubs as Core;
 
 /**
  * Delete various options when uninstalling the plugin.

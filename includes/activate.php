@@ -2,15 +2,15 @@
 /**
  * Our activation call.
  *
- * @package WooInstallmentEmails
+ * @package InstallmentPlansWooSubs
  */
 
 // Declare our namespace.
-namespace Nexcess\WooInstallmentEmails\Activate;
+namespace Nexcess\InstallmentPlansWooSubs\Activate;
 
 // Set our aliases.
-use Nexcess\WooInstallmentEmails as Core;
-use Nexcess\WooInstallmentEmails\Helpers as Helpers;
+use Nexcess\InstallmentPlansWooSubs as Core;
+use Nexcess\InstallmentPlansWooSubs\Helpers as Helpers;
 
 /**
  * Our inital setup function when activated.
@@ -58,7 +58,7 @@ function check_active_woo() {
 	deactivate_plugins( Core\BASE );
 
 	// And display the notice.
-	wp_die( sprintf( __( 'Using the WooCommerce Installment Emails plugin required that you have WooCommerce installed and activated. <a href="%s">Click here</a> to return to the plugins page.', 'woocommerce-installment-emails' ), admin_url( '/plugins.php' ) ) );
+	wp_die( sprintf( __( 'Using the Installment Plans for WooCommerce Subscriptions plugin required that you have WooCommerce installed and activated. <a href="%s">Click here</a> to return to the plugins page.', 'installment-plans-for-woo-subs' ), admin_url( '/plugins.php' ) ) );
 }
 
 /**
@@ -80,5 +80,5 @@ function check_active_woo_subs() {
 	deactivate_plugins( Core\BASE );
 
 	// And display the notice.
-	wp_die( sprintf( __( 'Using the WooCommerce Installment Emails plugin required that you have WooCommerce Subscriptions installed and activated. <a href="%s">Click here</a> to return to the plugins page.', 'woocommerce-installment-emails' ), admin_url( '/plugins.php' ) ) );
+	wp_die( sprintf( __( 'Using the Installment Plans for WooCommerce Subscriptions plugin required that you have WooCommerce Subscriptions installed and activated. <a href="%s">Click here</a> to return to the plugins page.', 'installment-plans-for-woo-subs' ), admin_url( '/plugins.php' ) ) );
 }

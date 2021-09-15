@@ -1,2 +1,2 @@
-# WooCommerce Installment Emails
-Filter the email content for subscriptions as installments.
+# Installment Plans for WooCommerce Subscriptions
+Extend the Subscriptions plugin for WooCommerce to handle installments.

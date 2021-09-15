@@ -1,4 +1,4 @@
-# WooCommerce Installment Emails Change Log
+# Installment Plans for WooCommerce Subscriptions Change Log
 
 All notable changes to this project will be documented in this file, according to [the Keep a Changelog standards](http://keepachangelog.com/).
 

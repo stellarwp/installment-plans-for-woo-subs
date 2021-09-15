@@ -1,23 +1,23 @@
 <?php
 /**
- * Plugin Name: WooCommerce Installment Emails
+ * Plugin Name: Installment Plans for WooCommerce Subscriptions
  * Plugin URI:  https://www.nexcess.net
- * Description: Filter the email content for subscriptions as installments.
+ * Description: Extend the Subscriptions plugin for WooCommerce to handle installments.
  * Version:     0.0.1-dev
  * Author:      Nexcess
  * Author URI:  https://www.nexcess.net
- * Text Domain: woocommerce-installment-emails
+ * Text Domain: installment-plans-for-woo-subs
  * Domain Path: /languages
  * WC requires at least: 5.2.0
  * WC tested up to: 5.3.0
  * License:     MIT
  * License URI: https://opensource.org/licenses/MIT
  *
- * @package WooInstallmentEmails
+ * @package InstallmentPlansWooSubs
  */
 
 // Declare our namespace.
-namespace Nexcess\WooInstallmentEmails;
+namespace Nexcess\InstallmentPlansWooSubs;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
@@ -39,22 +39,22 @@ define( __NAMESPACE__ . '\INCLUDES_PATH', __DIR__ . '/includes' );
 define( __NAMESPACE__ . '\TEMPLATES_PATH', __DIR__ . '/templates' );
 
 // Set the various prefixes for our actions and filters.
-define( __NAMESPACE__ . '\HOOK_PREFIX', 'wc_installment_emails_' );
-define( __NAMESPACE__ . '\OPTION_PREFIX', 'wcie_option_' );
-define( __NAMESPACE__ . '\TRANSIENT_PREFIX', 'wcie_tr_' );
+define( __NAMESPACE__ . '\HOOK_PREFIX', 'wcs_installment_plans_' );
+define( __NAMESPACE__ . '\OPTION_PREFIX', 'wcsip_option_' );
+define( __NAMESPACE__ . '\TRANSIENT_PREFIX', 'wcsip_tr_' );
 
 // Set our front menu endpoint constant.
 define( __NAMESPACE__ . '\FRONT_VAR', 'installment-plans' );
 
 // Now we handle all the various file loading.
-nx_woo_installment_emails_file_load();
+nx_wcs_installment_plans_file_load();
 
 /**
  * Actually load our files.
  *
  * @return void
  */
-function nx_woo_installment_emails_file_load() {
+function nx_wcs_installment_plans_file_load() {
 
 	// Load the multi-use files first.
 	require_once __DIR__ . '/includes/helpers.php';
@@ -67,6 +67,7 @@ function nx_woo_installment_emails_file_load() {
 	require_once __DIR__ . '/includes/woo/email.php';
 	require_once __DIR__ . '/includes/woo/account.php';
     require_once __DIR__ . '/includes/woo/admin.php';
+    require_once __DIR__ . '/includes/woo/themes.php';
 
 	// Load the triggered file loads.
 	require_once __DIR__ . '/includes/activate.php';

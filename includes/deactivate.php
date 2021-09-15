@@ -2,14 +2,14 @@
 /**
  * Our deactivation call.
  *
- * @package WooInstallmentEmails
+ * @package InstallmentPlansWooSubs
  */
 
 // Declare our namespace.
-namespace Nexcess\WooInstallmentEmails\Deactivate;
+namespace Nexcess\InstallmentPlansWooSubs\Deactivate;
 
 // Set our aliases.
-use Nexcess\WooInstallmentEmails as Core;
+use Nexcess\InstallmentPlansWooSubs as Core;
 
 /**
  * Delete various options when deactivating the plugin.

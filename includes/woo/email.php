@@ -2,16 +2,16 @@
 /**
  * Handle all the changes and modifications emails, etc.
  *
- * @package WooInstallmentEmails
+ * @package InstallmentPlansWooSubs
  */
 
 // Declare our namespace.
-namespace Nexcess\WooInstallmentEmails\Woo\Emails;
+namespace Nexcess\InstallmentPlansWooSubs\Woo\Emails;
 
 // Set our aliases.
-use Nexcess\WooInstallmentEmails as Core;
-use Nexcess\WooInstallmentEmails\Helpers as Helpers;
-use Nexcess\WooInstallmentEmails\Utilities as Utilities;
+use Nexcess\InstallmentPlansWooSubs as Core;
+use Nexcess\InstallmentPlansWooSubs\Helpers as Helpers;
+use Nexcess\InstallmentPlansWooSubs\Utilities as Utilities;
 
 /**
  * Start our engines.

@@ -5,7 +5,7 @@
  * This was copied from the WooCommerce Subscriptions
  * extension and then modified to fit our needs.
  *
- * @package WooInstallmentEmails
+ * @package InstallmentPlansWooSubs
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
@@ -19,13 +19,13 @@ $has_automatic_renewal = false;
 $is_parent_order       = wcs_order_contains_subscription( $order, 'parent' );
 ?>
 <div style="margin-bottom: 40px;">
-<h2><?php esc_html_e( 'Payment Plan Information', 'woocommerce-installment-emails' ); ?></h2>
+<h2><?php esc_html_e( 'Payment Plan Information', 'installment-plans-for-woo-subs' ); ?></h2>
 <table class="td" cellspacing="0" cellpadding="6" style="width: 100%; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; margin-bottom: 0.5em;" border="1">
 	<thead>
 		<tr>
-			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'Installment', 'table heading', 'woocommerce-installment-emails' ); ?></th>
-			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'Plan Details', 'table heading', 'woocommerce-installment-emails' ); ?></th>
-			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'Next Payment', 'table heading', 'woocommerce-installment-emails' ); ?></th>
+			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'Installment', 'table heading', 'installment-plans-for-woo-subs' ); ?></th>
+			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'Plan Details', 'table heading', 'installment-plans-for-woo-subs' ); ?></th>
+			<th class="td" scope="col" style="text-align:left;"><?php echo esc_html_x( 'Next Payment', 'table heading', 'installment-plans-for-woo-subs' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -74,7 +74,7 @@ $is_parent_order       = wcs_order_contains_subscription( $order, 'parent' );
 		'This installment plan is set to renew automatically using your payment method on file. You can manage or cancel this order from your %smy account page%s.',
 		'These installment plans are set to renew automatically using your payment method on file. You can manage or cancel your orders from your %smy account page%s.',
 		count( $subscriptions ),
-		'woocommerce-installment-emails'
+		'installment-plans-for-woo-subs'
 	), '<a href="' . $my_account_url . '">', '</a>' ) ) );
 }?>
 </div>

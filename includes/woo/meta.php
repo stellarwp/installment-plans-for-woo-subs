@@ -2,16 +2,16 @@
 /**
  * Handle the setup inside the Woo metaboxes.
  *
- * @package WooInstallmentEmails
+ * @package InstallmentPlansWooSubs
  */
 
 // Declare our namespace.
-namespace Nexcess\WooInstallmentEmails\Woo\Meta;
+namespace Nexcess\InstallmentPlansWooSubs\Woo\Meta;
 
 // Set our aliases.
-use Nexcess\WooInstallmentEmails as Core;
-use Nexcess\WooInstallmentEmails\Helpers as Helpers;
-use Nexcess\WooInstallmentEmails\Utilities as Utilities;
+use Nexcess\InstallmentPlansWooSubs as Core;
+use Nexcess\InstallmentPlansWooSubs\Helpers as Helpers;
+use Nexcess\InstallmentPlansWooSubs\Utilities as Utilities;
 
 /**
  * Start our engines.
@@ -36,8 +36,8 @@ function add_installment_option_type( $product_types ) {
 		$product_types['is_installments'] = array(
 			'id'            => '_is_installments',
 			'wrapper_class' => 'show_if_subscription show_if_variable-subscription',
-			'label'         => __( 'Installments', 'woocommerce-installment-emails' ),
-			'description'   => __( 'This subscription will be used for installment payments.', 'woocommerce-installment-emails' ),
+			'label'         => __( 'Installments', 'installment-plans-for-woo-subs' ),
+			'description'   => __( 'This subscription will be used for installment payments.', 'installment-plans-for-woo-subs' ),
 			'default'       => 'no',
 		);
 	}

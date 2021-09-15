@@ -2,15 +2,15 @@
 /**
  * Our helper functions to use across the plugin.
  *
- * @package WooInstallmentEmails
+ * @package InstallmentPlansWooSubs
  */
 
 // Declare our namespace.
-namespace Nexcess\WooInstallmentEmails\Helpers;
+namespace Nexcess\InstallmentPlansWooSubs\Helpers;
 
 // Set our aliases.
-use Nexcess\WooInstallmentEmails as Core;
-use Nexcess\WooInstallmentEmails\Utilities as Utilities;
+use Nexcess\InstallmentPlansWooSubs as Core;
+use Nexcess\InstallmentPlansWooSubs\Utilities as Utilities;
 
 /**
  * Check to see if WooCommerce is installed and active.

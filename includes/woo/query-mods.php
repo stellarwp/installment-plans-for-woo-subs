@@ -4,14 +4,14 @@
  *
  * Set up the actions that happen inside the admin area.
  *
- * @package WooInstallmentEmails
+ * @package InstallmentPlansWooSubs
  */
 
 // Declare our namespace.
-namespace Nexcess\WooInstallmentEmails\Woo\QueryMods;
+namespace Nexcess\InstallmentPlansWooSubs\Woo\QueryMods;
 
 // Set our aliases.
-use Nexcess\WooInstallmentEmails as Core;
+use Nexcess\InstallmentPlansWooSubs as Core;
 
 /**
  * Start our engines.

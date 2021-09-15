@@ -4,12 +4,12 @@
  *
  * Not using a namespace on purpose so these functions can be used by others.
  *
- * @package WooInstallmentEmails
+ * @package InstallmentPlansWooSubs
  */
 
 // Set our aliases.
-use Nexcess\WooInstallmentEmails as Core;
-use Nexcess\WooInstallmentEmails\Helpers as Helpers;
+use Nexcess\InstallmentPlansWooSubs as Core;
+use Nexcess\InstallmentPlansWooSubs\Helpers as Helpers;
 
 /**
  * Get all the details we put together for the email box.
@@ -35,11 +35,11 @@ function wcie_get_email_content_args( $subscription, $order ) {
 
 	// Set an array for this.
 	$set_content_array  = array(
-		'payment-detail'   => sprintf( __( '%s payment of %s', 'woocommerce-installment-emails' ), $set_single_increm, $set_single_total ),
-		'payment-counts'   => sprintf( _n( '%d total payment', '%d total payments', $set_single_count, 'woocommerce-installment-emails' ), $set_single_count ),
-		'payment-schedule' => sprintf( __( '%s per %s', 'woocommerce-installment-emails' ), $set_single_total, $subscription->get_billing_period() ),
-		'payment-totals'   => sprintf( __( '%s total', 'woocommerce-installment-emails' ), $set_instalm_total ),
-		'no-remaining'     => esc_html_x( 'no remaining payments', 'the payment made was the final one', 'woocommerce-installment-emails' ),
+		'payment-detail'   => sprintf( __( '%s payment of %s', 'installment-plans-for-woo-subs' ), $set_single_increm, $set_single_total ),
+		'payment-counts'   => sprintf( _n( '%d total payment', '%d total payments', $set_single_count, 'installment-plans-for-woo-subs' ), $set_single_count ),
+		'payment-schedule' => sprintf( __( '%s per %s', 'installment-plans-for-woo-subs' ), $set_single_total, $subscription->get_billing_period() ),
+		'payment-totals'   => sprintf( __( '%s total', 'installment-plans-for-woo-subs' ), $set_instalm_total ),
+		'no-remaining'     => esc_html_x( 'no remaining payments', 'the payment made was the final one', 'installment-plans-for-woo-subs' ),
 		'single-count'     => $set_single_count,
 		'total-cost'       => $set_instalm_total,
 	);
