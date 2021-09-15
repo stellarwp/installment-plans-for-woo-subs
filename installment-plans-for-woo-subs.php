@@ -62,12 +62,12 @@ function nx_wcs_installment_plans_file_load() {
 
 	// Load the Woo related files.
 	require_once __DIR__ . '/includes/woo/query-mods.php';
-    require_once __DIR__ . '/includes/woo/meta.php';
+	require_once __DIR__ . '/includes/woo/meta.php';
 	require_once __DIR__ . '/includes/woo/orders.php';
 	require_once __DIR__ . '/includes/woo/email.php';
 	require_once __DIR__ . '/includes/woo/account.php';
-    require_once __DIR__ . '/includes/woo/admin.php';
-    require_once __DIR__ . '/includes/woo/themes.php';
+	require_once __DIR__ . '/includes/woo/admin.php';
+	require_once __DIR__ . '/includes/woo/themes.php';
 
 	// Load the triggered file loads.
 	require_once __DIR__ . '/includes/activate.php';

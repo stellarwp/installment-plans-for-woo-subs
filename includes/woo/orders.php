@@ -34,10 +34,10 @@ function save_installment_order_meta( $order, $data ) {
 	// If we have some, set the meta.
 	if ( false !== $maybe_has_installments ) {
 
-        // Set the initial flag.
-        $order->update_meta_data( '_order_has_installments', 'yes' );
+		// Set the initial flag.
+		$order->update_meta_data( '_order_has_installments', 'yes' );
 
-        // And our installment count.
-        $order->update_meta_data( '_order_installment_count', absint( $maybe_has_installments ) );
+		// And our installment count.
+		$order->update_meta_data( '_order_installment_count', absint( $maybe_has_installments ) );
 	}
 }

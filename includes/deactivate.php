@@ -18,6 +18,9 @@ use Nexcess\InstallmentPlansWooSubs as Core;
  */
 function deactivate() {
 
+	// Delete the activation flag option.
+	delete_option( Core\OPTION_PREFIX . 'activation_complete' );
+
 	// Include our action so that we may add to this later.
 	do_action( Core\HOOK_PREFIX . 'before_deactivate_process' );
 
