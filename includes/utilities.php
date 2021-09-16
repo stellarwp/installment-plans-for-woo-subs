@@ -25,9 +25,9 @@ function wcsip_get_email_content_args( $subscription, $order ) {
 	$get_single_count = get_post_meta( $order->get_id(), '_order_installment_count', true );
 
 	// Set our single total and increment.
-	$set_single_count   = ! empty( $get_single_count ) ? $get_single_count : 0;
 	$set_single_increm = Helpers\add_ordinal_suffix( $subscription->get_payment_count() );
 	$set_single_total  = wc_price( $subscription->get_total(), [ 'currency' => $subscription->get_currency() ] );
+	$set_single_count  = (int) $get_single_count;
 
 	// Calculate the total cost.
 	$calc_instalm_total = absint( $subscription->get_total() ) * absint( $set_single_count );
