@@ -11,6 +11,8 @@ namespace Nexcess\InstallmentPlansWooSubs\Deactivate;
 // Set our aliases.
 use Nexcess\InstallmentPlansWooSubs as Core;
 
+register_deactivation_hook( Core\FILE, __NAMESPACE__ . '\deactivate' );
+
 /**
  * Delete various options when deactivating the plugin.
  *
@@ -30,4 +32,3 @@ function deactivate() {
 	// And flush our rewrite rules.
 	flush_rewrite_rules();
 }
-register_deactivation_hook( Core\FILE, __NAMESPACE__ . '\deactivate' );

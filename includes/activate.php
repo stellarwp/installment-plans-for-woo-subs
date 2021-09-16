@@ -12,6 +12,8 @@ namespace Nexcess\InstallmentPlansWooSubs\Activate;
 use Nexcess\InstallmentPlansWooSubs as Core;
 use Nexcess\InstallmentPlansWooSubs\Helpers as Helpers;
 
+register_activation_hook( Core\FILE, __NAMESPACE__ . '\activate' );
+
 /**
  * Our inital setup function when activated.
  *
@@ -37,7 +39,6 @@ function activate() {
 	// seems to be required.
 	flush_rewrite_rules();
 }
-register_activation_hook( Core\FILE, __NAMESPACE__ . '\activate' );
 
 /**
  * Handle checking if WooCommerce is present and activated.
