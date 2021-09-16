@@ -25,8 +25,8 @@ function activate() {
 	do_action( Core\HOOK_PREFIX . 'before_activate_process' );
 
 	// Do the checks for WooCommerce and Subscriptions both being active.
-	check_active_woo();
-	check_active_woo_subs();
+	check_active( Helpers\maybe_woo_activated() );
+	check_active( Helpers\maybe_woo_subs_activated() );
 
 	// Include our action so that we may add to this later.
 	do_action( Core\HOOK_PREFIX . 'after_activate_process' );
@@ -45,13 +45,10 @@ function activate() {
  *
  * @return void
  */
-function check_active_woo() {
-
-	// Pull the function check.
-	$maybe_activate = Helpers\maybe_woo_activated();
+function check_active( $check ) {
 
 	// If we weren't false, we are OK.
-	if ( false !== $maybe_activate ) {
+	if ( $check ) {
 		return;
 	}
 
@@ -59,27 +56,10 @@ function check_active_woo() {
 	deactivate_plugins( Core\BASE );
 
 	// And display the notice.
-	wp_die( sprintf( __( 'Using the Installment Plans for WooCommerce Subscriptions plugin required that you have WooCommerce installed and activated. <a href="%s">Click here</a> to return to the plugins page.', 'installment-plans-for-woo-subs' ), admin_url( '/plugins.php' ) ) );
-}
-
-/**
- * Handle checking if WooCommerce is present and activated.
- *
- * @return void
- */
-function check_active_woo_subs() {
-
-	// Pull the function check.
-	$maybe_activate = Helpers\maybe_woo_subs_activated();
-
-	// If we weren't false, we are OK.
-	if ( false !== $maybe_activate ) {
-		return;
-	}
-
-	// Deactivate the plugin.
-	deactivate_plugins( Core\BASE );
-
-	// And display the notice.
-	wp_die( sprintf( __( 'Using the Installment Plans for WooCommerce Subscriptions plugin required that you have WooCommerce Subscriptions installed and activated. <a href="%s">Click here</a> to return to the plugins page.', 'installment-plans-for-woo-subs' ), admin_url( '/plugins.php' ) ) );
+	wp_die( wp_kses_post( sprintf(
+		/* translators: %1$s: start of link tag, %2$s: end of link tag */
+		__( 'Using the Installment Plans for WooCommerce Subscriptions plugin requires that you have WooCommerce installed and activated. %1$Return to the plugins page%2$s.', 'installment-plans-for-woo-subs' ),
+		'<a href="' . admin_url( '/plugins.php' ) . '">',
+		'</a>'
+	) ) );
 }
