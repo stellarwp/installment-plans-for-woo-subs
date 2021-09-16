@@ -58,7 +58,7 @@ function add_endpoint_menu_item( $menu_items ) {
 	}
 
 	// None existed, just throw it on the end.
-	return wp_parse_args( array( Core\FRONT_VAR => esc_attr( $menu_title ) ), $menu_items );
+	return wp_parse_args( [ Core\FRONT_VAR => esc_attr( $menu_title ) ], $menu_items );
 }
 
 /**
@@ -183,10 +183,10 @@ function add_endpoint_content() {
 	$set_template_name = ! empty( $get_installments ) ? 'my-account/installments-list.php' : 'my-account/no-installments.php';
 
 	// Set up our args in an array.
-	$set_template_args  = array(
+	$set_template_args = [
 		'name' => $set_template_name,
-		'path' => Core\TEMPLATES_PATH . '/'
-	);
+		'path' => Core\TEMPLATES_PATH . '/',
+	];
 
 	// Run it through a filter for others to change.
 	$set_template_args = apply_filters( Core\HOOK_PREFIX . 'endpoint_page_content_template_args', $set_template_args, $get_installments );
