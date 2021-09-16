@@ -34,10 +34,14 @@ function wcsip_get_email_content_args( $subscription, $order ) {
 	$set_instalm_total  = wc_price( $calc_instalm_total, [ 'currency' => $subscription->get_currency() ] );
 
 	// Set an array for this.
-		'payment-detail'   => sprintf( __( '%s payment of %s', 'installment-plans-for-woo-subs' ), $set_single_increm, $set_single_total ),
 	$set_content_array = [
+		/* translators: %1$s is the count of payments, %2$s is the total amount. */
+		'payment-detail'   => sprintf( __( '%1$s payment of %2$s', 'installment-plans-for-woo-subs' ), $set_single_increm, $set_single_total ),
+		/* translators: %d is the total amount. */
 		'payment-counts'   => sprintf( _n( '%d total payment', '%d total payments', $set_single_count, 'installment-plans-for-woo-subs' ), $set_single_count ),
-		'payment-schedule' => sprintf( __( '%s per %s', 'installment-plans-for-woo-subs' ), $set_single_total, $subscription->get_billing_period() ),
+		/* translators: %1$s is the total, %2$s is the billing period. */
+		'payment-schedule' => sprintf( __( '%1$s per %2$s', 'installment-plans-for-woo-subs' ), $set_single_total, $subscription->get_billing_period() ),
+		/* translators: %s is the total amount. */
 		'payment-totals'   => sprintf( __( '%s total', 'installment-plans-for-woo-subs' ), $set_instalm_total ),
 		'no-remaining'     => esc_html_x( 'no remaining payments', 'the payment made was the final one', 'installment-plans-for-woo-subs' ),
 		'single-count'     => $set_single_count,
