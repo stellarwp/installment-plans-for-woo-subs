@@ -56,7 +56,7 @@ function add_installment_option_type( $product_types ) {
 function save_installment_option_type( $product_id ) {
 
 	// Check for the POST value.
-	$is_installment = isset( $_POST['_is_installments'] ) ? 'yes' : 'no';
+	$is_installment = isset( $_POST['_is_installments'] ) ? 'yes' : 'no'; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 	// Set the meta key.
 	update_post_meta( $product_id, '_is_installments', $is_installment );
