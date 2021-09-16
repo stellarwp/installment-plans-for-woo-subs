@@ -60,14 +60,8 @@ function wcsip_get_email_content_args( $subscription, $order ) {
  */
 function wcsip_array_insert_after( $needle = '', $haystack = array(), $new_key = '', $new_value ) {
 
-	// If any required parts are missing, or the
-	// haystack isn't an array, return the whole thing.
-	if ( empty( $needle ) || empty( $haystack ) || empty( $new_key ) || ! is_array( $haystack ) ) {
-		return $haystack;
-	}
-
-	// The array key didn't exist, so return the haystack.
-	if ( ! array_key_exists( $needle, $haystack ) ) {
+	// If any required parts are missing, or the haystack isn't an array, or the The array key does't exist, return the haystack.
+	if ( ! $needle || ! is_array( $haystack ) || empty( $haystack ) || ! array_key_exists( $needle, $haystack ) || ! $new_key ) {
 		return $haystack;
 	}
 
@@ -122,19 +116,10 @@ function wcsip_get_user_installments( $user_id = 0, $return_count = false ) {
 		// Attempt to get the subscription.
 		$subscription = wcs_get_subscription( $single_id );
 
-		// If we have one, add it to the array.
-		if ( false !== $subscription ) {
-
-			// Check for installments.
-			$maybe_has_installments = Helpers\maybe_order_has_installments( $subscription, false );
-
-			// If we have it, add it.
-			if ( false !== $maybe_has_installments ) {
-				$subscriptions[ $single_id ] = $subscription;
-			}
+		// If we have installments, add it.
+		if ( $subscription && Helpers\maybe_order_has_installments( $subscription, false ) ) {
+			$subscriptions[ $single_id ] = $subscription;
 		}
-
-		// Nothing left to loop inside the IDs.
 	}
 
 	// Return the array or the count based on the request.
