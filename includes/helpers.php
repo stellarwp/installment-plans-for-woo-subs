@@ -18,7 +18,7 @@ use Nexcess\InstallmentPlansWooSubs\Utilities as Utilities;
  * @return boolean
  */
 function maybe_woo_activated() {
-	return class_exists( 'woocommerce' ) ? true : false;
+	return class_exists( 'woocommerce' );
 }
 
 /**
@@ -27,7 +27,7 @@ function maybe_woo_activated() {
  * @return boolean
  */
 function maybe_woo_subs_activated() {
-	return function_exists( 'wcs_is_subscription' ) ? true : false;
+	return function_exists( 'wcs_is_subscription' );
 }
 
 /**
@@ -41,7 +41,7 @@ function maybe_store_has_installments() {
 	$ky = Core\TRANSIENT_PREFIX . 'has_installments';
 
 	// If we don't want the cache'd version, delete the transient first.
-	if ( defined( 'WP_DEBUG' ) && WP_DEBUG || ! empty( $purge ) ) {
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 		delete_transient( $ky );
 	}
 

@@ -101,7 +101,7 @@ function wcsip_array_insert_after( $needle = '', $haystack = array(), $new_key =
 function wcsip_get_user_installments( $user_id = 0, $return_count = false ) {
 
 	// Make sure we have a user ID before we continue.
-	if ( 0 === $user_id || empty( $user_id ) ) {
+	if ( empty( $user_id ) ) {
 		$user_id = get_current_user_id();
 	}
 
@@ -138,5 +138,5 @@ function wcsip_get_user_installments( $user_id = 0, $return_count = false ) {
 	}
 
 	// Return the array or the count based on the request.
-	return false !== $return_count ? count( $subscriptions ) : $subscriptions;
+	return $return_count ? count( $subscriptions ) : $subscriptions;
 }

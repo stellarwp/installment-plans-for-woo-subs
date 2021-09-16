@@ -35,7 +35,7 @@ function maybe_finish_installments_setup() {
 	$has_completed  = get_option( Core\OPTION_PREFIX . 'activation_complete', false );
 
 	// It's there and flagged as "yes", so we're done.
-	if ( ! empty( $has_completed ) && 'yes' === sanitize_text_field( $has_completed ) ) {
+	if ( 'yes' === sanitize_text_field( $has_completed ) ) {
 		return;
 	}
 
@@ -149,7 +149,7 @@ function modify_installment_product_queries( $query_vars ) {
 	$current_product_type = isset( $_REQUEST['product_type'] ) ? wc_clean( wp_unslash( $_REQUEST['product_type'] ) ) : false;
 
 	// Bail if we didn't request installments.
-	if ( ! $current_product_type || 'installments' !== $current_product_type ) {
+	if ( 'installments' !== $current_product_type ) {
 		return $query_vars;
 	}
 
@@ -184,7 +184,7 @@ function modify_installment_order_queries( $query_vars ) {
 	$maybe_sub_type = isset( $_GET['shop_order_subtype'] ) ? wc_clean( wp_unslash( $_GET['shop_order_subtype'] ) ) : false;
 
 	// Bail if we didn't request installments.
-	if ( ! $maybe_sub_type || 'installments' !== $maybe_sub_type ) {
+	if ( 'installments' !== $maybe_sub_type ) {
 		return $query_vars;
 	}
 
