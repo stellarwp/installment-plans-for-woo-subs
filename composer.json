@@ -1,0 +1,27 @@
+{
+    "name": "stellarwp/installment-plans-for-woo-subs",
+    "description": "A WooCommerce extension for the Subscriptions plugin.",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nexcess",
+            "email": "wordpress@nexcess.net"
+        }
+    ],
+    "require-dev": {
+        "php": "^7.4",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+        "phpcompatibility/phpcompatibility-wp": "^2.0",
+        "wp-coding-standards/wpcs": "^2.1"
+    },
+    "scripts": {
+        "phpcbf": [ "./vendor/bin/phpcbf" ],
+        "phpcs": [ "./vendor/bin/phpcs" ]
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    }
+}
