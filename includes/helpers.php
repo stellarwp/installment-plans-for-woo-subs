@@ -54,23 +54,17 @@ function maybe_store_has_installments() {
 		// Call the global database.
 		global $wpdb;
 
-		// Set our table name.
-		$table_name = $wpdb->prefix . 'postmeta';
-
 		// Set up our query.
-		$query_args = $wpdb->prepare("
+		$query_run = $wpdb->get_results( $wpdb->prepare( "
 			SELECT   post_id
-			FROM     $table_name
-			WHERE    meta_key = '%s'
-			AND      meta_value = '%s'
+			FROM     $wpdb->postmeta
+			WHERE    meta_key = %s
+			AND      meta_value = %s
 			LIMIT    1
-		", esc_attr( '_is_installments' ), esc_attr( 'yes' ) );
-
-		// Process the query.
-		$query_run  = $wpdb->get_results( $query_args );
+		", esc_attr( '_is_installments' ), esc_attr( 'yes' ) ) );
 
 		// Bail without any reviews.
-		if ( empty( $query_run ) ) {
+		if ( empty( $query_run ) || is_wp_error( $query_run ) ) {
 			return false;
 		}
 
