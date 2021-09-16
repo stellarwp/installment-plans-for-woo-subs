@@ -58,7 +58,7 @@ function wcsip_get_email_content_args( $subscription, $order ) {
  *
  * @return array              The new array if the $needle key exists, otherwise an unmodified $haystack
  */
-function wcsip_array_insert_after( $needle = '', $haystack = array(), $new_key = '', $new_value ) {
+function wcsip_array_insert_after( $needle = '', $haystack = [], $new_key = '', $new_value = null ) {
 
 	// If any required parts are missing, or the haystack isn't an array, or the The array key does't exist, return the haystack.
 	if ( ! $needle || ! is_array( $haystack ) || empty( $haystack ) || ! array_key_exists( $needle, $haystack ) || ! $new_key ) {

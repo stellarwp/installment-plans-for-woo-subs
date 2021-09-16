@@ -199,7 +199,7 @@ function maybe_subscriptions_endpoint_page( $in_query = false ) {
  *
  * @return array
  */
-function get_order_email_template_args( $order_id = 0, $order, $plaintext = false ) {
+function get_order_email_template_args( $order_id, $order, $plaintext = false ) {
 
 	// Set the initial args from Subscriptions.
 	$template_args = [
