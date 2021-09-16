@@ -1,7 +1,6 @@
 <?php
 /**
- * My installment plans section on the My Account page
- *
+ * My installment plans section on the My Account page.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -12,9 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<p class="no_subscriptions woocommerce-message woocommerce-message--info woocommerce-Message woocommerce-Message--info woocommerce-info">
 		<?php esc_html_e( 'You have no active installment plans.', 'installment-plans-for-woo-subs' ); ?>
-		<a class="woocommerce-Button button" href="<?php echo esc_url( $no_items_link ); ?>">
-			<?php echo esc_html( $no_items_text ); ?>
-		</a>
+		<a class="woocommerce-Button button" href="<?php echo esc_url( $no_items_link ); ?>"><?php echo esc_html( $no_items_text ); ?></a>
 	</p>
 
 </div>
