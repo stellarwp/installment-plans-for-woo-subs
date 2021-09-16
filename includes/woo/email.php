@@ -46,7 +46,7 @@ function maybe_add_installment_info( $order, $is_admin_email, $plaintext = false
 	}
 
 	// Check for the existence of subscriptions.
-	$subscriptions  = wcs_get_subscriptions_for_order( $order, array( 'order_type' => 'any' ) );
+	$subscriptions = wcs_get_subscriptions_for_order( $order, [ 'order_type' => 'any' ] );
 
 	// Bail if we don't have any subs at all.
 	if ( empty( $subscriptions ) ) {
@@ -54,7 +54,7 @@ function maybe_add_installment_info( $order, $is_admin_email, $plaintext = false
 	}
 
 	// Get our template args.
-	$template_args  = Helpers\get_order_email_template_args( $order->get_id(), $order, $plaintext );
+	$template_args = Helpers\get_order_email_template_args( $order->get_id(), $order, $plaintext );
 
 	// Bail if we somehow lost the args in the filter.
 	if ( empty( $template_args ) ) {

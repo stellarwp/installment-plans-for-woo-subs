@@ -106,7 +106,7 @@ function wcsip_get_user_installments( $user_id = 0, $return_count = false ) {
 	}
 
 	// Attempt to fetch the IDs.
-	$fetch_sub_ids  = WCS_Customer_Store::instance()->get_users_subscription_ids( $user_id );
+	$fetch_sub_ids = WCS_Customer_Store::instance()->get_users_subscription_ids( $user_id );
 
 	// Bail without any IDs.
 	if ( empty( $fetch_sub_ids ) ) {
@@ -120,7 +120,7 @@ function wcsip_get_user_installments( $user_id = 0, $return_count = false ) {
 	foreach ( $fetch_sub_ids as $single_id ) {
 
 		// Attempt to get the subscription.
-		$subscription   = wcs_get_subscription( $single_id );
+		$subscription = wcs_get_subscription( $single_id );
 
 		// If we have one, add it to the array.
 		if ( false !== $subscription ) {

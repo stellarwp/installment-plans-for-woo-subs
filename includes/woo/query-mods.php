@@ -32,7 +32,7 @@ add_filter( 'request', __NAMESPACE__ . '\modify_installment_order_queries', 21 )
 function maybe_finish_installments_setup() {
 
 	// Grab our option flag.
-	$has_completed  = get_option( Core\OPTION_PREFIX . 'activation_complete', false );
+	$has_completed = get_option( Core\OPTION_PREFIX . 'activation_complete', false );
 
 	// It's there and flagged as "yes", so we're done.
 	if ( 'yes' === sanitize_text_field( $has_completed ) ) {

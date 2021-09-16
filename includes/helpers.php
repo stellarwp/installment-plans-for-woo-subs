@@ -101,7 +101,7 @@ function maybe_order_has_installments( $order, $return_length = true ) {
 	}
 
 	// Attempt to get our items.
-	$fetch_order_items  = $order->get_items();
+	$fetch_order_items = $order->get_items();
 
 	// Bail if there are no items in the order.
 	if ( empty( $fetch_order_items ) ) {
@@ -120,7 +120,7 @@ function maybe_order_has_installments( $order, $return_length = true ) {
 		}
 
 		// Now check for the meta key.
-		$maybe_key  = get_post_meta( absint( $product_id ), '_is_installments', true );
+		$maybe_key = get_post_meta( absint( $product_id ), '_is_installments', true );
 
 		// If we have it, return true (and we're done).
 		if ( ! empty( $maybe_key ) && 'yes' === sanitize_text_field( $maybe_key ) ) {
@@ -214,7 +214,7 @@ function get_order_email_template_args( $order_id = 0, $order, $plaintext = fals
 	];
 
 	// Now get the meta for our flag.
-	$installments   = get_post_meta( absint( $order_id ), '_order_has_installments', true );
+	$installments = get_post_meta( absint( $order_id ), '_order_has_installments', true );
 
 	// If we have installments, use our own template setup.
 	if ( ! empty( $installments ) && 'yes' === sanitize_text_field( $installments ) ) {
@@ -240,7 +240,7 @@ function get_order_email_template_args( $order_id = 0, $order, $plaintext = fals
 function add_ordinal_suffix( $number = 1 ) {
 
 	// Set a default ordinal.
-	$default_ordinal    = $number . '<sup>th</sup>';
+	$default_ordinal = $number . '<sup>th</sup>';
 
 	// We have some we need to do mathletics to.
 	if ( ! in_array( ( $number % 100 ), array( 11, 12, 13 ) ) ) {

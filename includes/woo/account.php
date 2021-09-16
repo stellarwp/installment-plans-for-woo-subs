@@ -179,10 +179,10 @@ function change_single_view_title( $title, $endpoint, $action ) {
 function add_endpoint_content() {
 
 	// Get the installments.
-	$get_installments   = wcsip_get_user_installments();
+	$get_installments = wcsip_get_user_installments();
 
 	// Set our template name.
-	$set_template_name  = ! empty( $get_installments ) ? 'my-account/installments-list.php' : 'my-account/no-installments.php';
+	$set_template_name = ! empty( $get_installments ) ? 'my-account/installments-list.php' : 'my-account/no-installments.php';
 
 	// Set up our args in an array.
 	$set_template_args  = array(
@@ -191,7 +191,7 @@ function add_endpoint_content() {
 	);
 
 	// Run it through a filter for others to change.
-	$set_template_args  = apply_filters( Core\HOOK_PREFIX . 'endpoint_page_content_template_args', $set_template_args, $get_installments );
+	$set_template_args = apply_filters( Core\HOOK_PREFIX . 'endpoint_page_content_template_args', $set_template_args, $get_installments );
 
 	// Set the text for "no installment plans".
 	$set_emptyitem_link = apply_filters( Core\HOOK_PREFIX . 'no_installments_return_link', wc_get_page_permalink( 'shop' ) );
