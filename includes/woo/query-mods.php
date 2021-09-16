@@ -146,7 +146,7 @@ function modify_installment_product_queries( $query_vars ) {
 	}
 
 	// Make sure we have a product type to check against.
-	$current_product_type = isset( $_REQUEST['product_type'] ) ? wc_clean( wp_unslash( $_REQUEST['product_type'] ) ) : false;
+	$current_product_type = isset( $_REQUEST['product_type'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['product_type'] ) ) : false; // phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 	// Bail if we didn't request installments.
 	if ( 'installments' !== $current_product_type ) {
@@ -181,7 +181,7 @@ function modify_installment_order_queries( $query_vars ) {
 	}
 
 	// Make sure we have a product type to check against.
-	$maybe_sub_type = isset( $_GET['shop_order_subtype'] ) ? wc_clean( wp_unslash( $_GET['shop_order_subtype'] ) ) : false;
+	$maybe_sub_type = isset( $_GET['shop_order_subtype'] ) ? sanitize_text_field( wp_unslash( $_GET['shop_order_subtype'] ) ) : false; // phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 	// Bail if we didn't request installments.
 	if ( 'installments' !== $maybe_sub_type ) {
