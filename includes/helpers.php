@@ -208,10 +208,10 @@ function maybe_subscriptions_endpoint_page( $in_query = false ) {
 function get_order_email_template_args( $order_id = 0, $order, $plaintext = false ) {
 
 	// Set the initial args from Subscriptions.
-	$template_args  = array(
+	$template_args = [
 		'base' => plugin_dir_path( \WC_Subscriptions::$plugin_file ) . 'templates/',
 		'file' => false !== $plaintext ? 'emails/plain/subscription-info.php' : 'emails/subscription-info.php',
-	);
+	];
 
 	// Now get the meta for our flag.
 	$installments   = get_post_meta( absint( $order_id ), '_order_has_installments', true );
@@ -220,10 +220,10 @@ function get_order_email_template_args( $order_id = 0, $order, $plaintext = fals
 	if ( ! empty( $installments ) && 'yes' === sanitize_text_field( $installments ) ) {
 
 		// Swap the values.
-		$template_args  = array(
+		$template_args = [
 			'base' => Core\TEMPLATES_PATH . '/',
 			'file' => false !== $plaintext ? 'emails/plain/installments-info.php' : 'emails/installments-info.php',
-		);
+		];
 	}
 
 	// Return it filtered.

@@ -72,7 +72,7 @@ function wcsip_array_insert_after( $needle = '', $haystack = array(), $new_key =
 	}
 
 	// Set our merged array.
-	$merged_array   = array();
+	$merged_array = [];
 
 	// Loop the haystack and find our key.
 	foreach ( $haystack as $haystack_key => $haystack_value ) {
@@ -105,9 +105,6 @@ function wcsip_get_user_installments( $user_id = 0, $return_count = false ) {
 		$user_id = get_current_user_id();
 	}
 
-	// Set an empty.
-	$subscriptions  = array();
-
 	// Attempt to fetch the IDs.
 	$fetch_sub_ids  = WCS_Customer_Store::instance()->get_users_subscription_ids( $user_id );
 
@@ -115,6 +112,9 @@ function wcsip_get_user_installments( $user_id = 0, $return_count = false ) {
 	if ( empty( $fetch_sub_ids ) ) {
 		return false;
 	}
+
+	// Set an empty array.
+	$subscriptions = [];
 
 	// Now loop the IDs and pull out each one.
 	foreach ( $fetch_sub_ids as $single_id ) {

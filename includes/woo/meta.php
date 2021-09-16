@@ -33,13 +33,13 @@ function add_installment_option_type( $product_types ) {
 	if ( ! isset( $product_types['is_installments'] ) ) {
 
 		// Add our new one.
-		$product_types['is_installments'] = array(
+		$product_types['is_installments'] = [
 			'id'            => '_is_installments',
 			'wrapper_class' => 'show_if_subscription show_if_variable-subscription',
 			'label'         => __( 'Installments', 'installment-plans-for-woo-subs' ),
 			'description'   => __( 'This subscription will be used for installment payments.', 'installment-plans-for-woo-subs' ),
 			'default'       => 'no',
-		);
+		];
 	}
 
 	// And return the updated array.

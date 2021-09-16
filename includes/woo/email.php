@@ -64,11 +64,11 @@ function maybe_add_installment_info( $order, $is_admin_email, $plaintext = false
 	// Return the WC template setup.
 	wc_get_template(
 		$template_args['file'],
-		array(
+		[
 			'order'          => $order,
 			'subscriptions'  => $subscriptions,
 			'is_admin_email' => $is_admin_email,
-		),
+		],
 		'',
 		$template_args['base']
 	);

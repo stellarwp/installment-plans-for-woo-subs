@@ -80,7 +80,7 @@ function add_installments_endpoint_vars( $vars ) {
  * @since  2.3.0
  */
 function add_woo_query_vars( $query_vars ) {
-	return array_merge( $query_vars, array( Core\FRONT_VAR => Core\FRONT_VAR ) );
+	return array_merge( $query_vars, [ Core\FRONT_VAR => Core\FRONT_VAR ] );
 }
 
 /**
@@ -157,7 +157,7 @@ function modify_installment_product_queries( $query_vars ) {
 	// and put the product type back to subscriptions.
 	$query_vars['meta_value']   = 'yes';
 	$query_vars['meta_key']     = '_is_installments';
-	$query_vars['product_type'] = array( 'subscription', 'variable-subscription' );
+	$query_vars['product_type'] = [ 'subscription', 'variable-subscription' ];
 
 	// And return the updated vars.
 	return $query_vars;

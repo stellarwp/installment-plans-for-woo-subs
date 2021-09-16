@@ -200,14 +200,12 @@ function add_endpoint_content() {
 	// Return the WC template setup.
 	wc_get_template(
 		$set_template_args['name'],
-		array(
+		[
 			'installments'  => $get_installments,
 			'no_items_link' => $set_emptyitem_link,
 			'no_items_text' => $set_emptyitem_text,
-		),
+		],
 		'',
 		$set_template_args['path']
 	);
-
-	// Nothing left.
 }
