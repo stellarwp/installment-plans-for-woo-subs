@@ -28,9 +28,9 @@ add_action( 'woocommerce_account_installment-plans_endpoint', __NAMESPACE__ . '\
 /**
  * Merge in our new enpoint into the existing "My Account" menu.
  *
- * @param  array $menu_items  The existing menu items.
+ * @param array $menu_items The existing menu items.
  *
- * @return array
+ * @return array The modified menu items.
  */
 function add_endpoint_menu_item( $menu_items ) {
 
@@ -67,8 +67,7 @@ function add_endpoint_menu_item( $menu_items ) {
  * @param array  $classes  The classes present in the current endpoint.
  * @param string $endpoint The endpoint/label we're filtering.
  *
- * @return array
- * @since 2.5.6
+ * @return array The modified classes.
  */
 function maybe_add_active_class( $classes, $endpoint ) {
 
@@ -87,10 +86,11 @@ function maybe_add_active_class( $classes, $endpoint ) {
 }
 
 /**
- * Changes page title on view subscription page
+ * Changes page title on view subscription page.
  *
- * @param  string $title original title
- * @return string        changed title
+ * @param string $title original title
+ *
+ * @return string changed title
  */
 function change_endpoint_title( $title ) {
 
@@ -121,11 +121,11 @@ function change_endpoint_title( $title ) {
  * Hooks onto `woocommerce_endpoint_{$endpoint}_title` to return the correct page title for the installment endpoints
  * in My Account.
  *
- * @param  string $title     Default title.
- * @param  string $endpoint  Endpoint key.
- * @param  string $action    Optional action or variation within the endpoint.
+ * @param string $title    Default title.
+ * @param string $endpoint Endpoint key.
+ * @param string $action   Optional action or variation within the endpoint.
  *
- * @return string
+ * @return string The title for the endpoint.
  */
 function change_list_view_title( $title, $endpoint, $action ) {
 
@@ -143,7 +143,7 @@ function change_list_view_title( $title, $endpoint, $action ) {
  * @param  string $endpoint  Endpoint key.
  * @param  string $action    Optional action or variation within the endpoint.
  *
- * @return string
+ * @return string The title for the endpoint.
  */
 function change_single_view_title( $title, $endpoint, $action ) {
 

@@ -15,7 +15,7 @@ use Nexcess\InstallmentPlansWooSubs\Utilities as Utilities;
 /**
  * Check to see if WooCommerce is installed and active.
  *
- * @return boolean
+ * @return bool True if WooCommerce is active, false otherwise.
  */
 function maybe_woo_activated() {
 	return class_exists( 'woocommerce' ) ? true : false;
@@ -24,7 +24,7 @@ function maybe_woo_activated() {
 /**
  * Check to see if WooCommerce Subscriptions is installed and active.
  *
- * @return boolean
+ * @return bool Whether or not WooCommerce Subscriptions is active.
  */
 function maybe_woo_subs_activated() {
 	return function_exists( 'wcs_is_subscription' ) ? true : false;
@@ -33,7 +33,7 @@ function maybe_woo_subs_activated() {
 /**
  * Check and see if any products have been applied.
  *
- * @return boolean
+ * @return bool Whether or installments is set up.
  */
 function maybe_store_has_installments() {
 
@@ -88,10 +88,10 @@ function maybe_store_has_installments() {
 /**
  * Check all the products in an order for installments.
  *
- * @param  WC_Order $order          The entire order object.
- * @param  boolean  $return_length  Whether to return the length or not.
+ * @param \WC_Order $order         The entire order object.
+ * @param bool      $return_length Whether to return the length or not.
  *
- * @return boolean
+ * @return bool True if any products have installments, false if not.
  */
 function maybe_order_has_installments( $order, $return_length = true ) {
 
@@ -147,9 +147,9 @@ function maybe_order_has_installments( $order, $return_length = true ) {
 /**
  * Check if we are on the installments plan page.
  *
- * @param  boolean $in_query  Whether to check inside the actual query.
+ * @param bool $in_query Whether to check inside the actual query.
  *
- * @return boolean
+ * @return bool Whether we are on the installments plan page.
  */
 function maybe_installments_endpoint_page( $in_query = false ) {
 
@@ -173,9 +173,9 @@ function maybe_installments_endpoint_page( $in_query = false ) {
 /**
  * Check if we are on the subscriptions plan page.
  *
- * @param  boolean $in_query  Whether to check inside the actual query.
+ * @param bool $in_query Whether to check inside the actual query.
  *
- * @return boolean
+ * @return bool Whether we are on the subscriptions plan page.
  */
 function maybe_subscriptions_endpoint_page( $in_query = false ) {
 
@@ -199,11 +199,11 @@ function maybe_subscriptions_endpoint_page( $in_query = false ) {
 /**
  * Get the arguments for the template part based on being installments.
  *
- * @param  integer  $order_id   The ID of the order.
- * @param  WC_Order $order      The entire order object.
- * @param  boolean  $plaintext  If this is a plaintext email or not.
+ * @param int       $order_id  The ID of the order.
+ * @param \WC_Order $order     The entire order object.
+ * @param bool      $plaintext If this is a plaintext email or not.
  *
- * @return array
+ * @return array The arguments to pass to the template part.
  */
 function get_order_email_template_args( $order_id = 0, $order, $plaintext = false ) {
 
@@ -233,9 +233,9 @@ function get_order_email_template_args( $order_id = 0, $order, $plaintext = fals
 /**
  * Add the ordinal suffix to a number.
  *
- * @param  integer $number  The number we wanna do.
+ * @param int $number The number we wanna do.
  *
- * @return string
+ * @return string The number with the ordinal suffix.
  */
 function add_ordinal_suffix( $number = 1 ) {
 

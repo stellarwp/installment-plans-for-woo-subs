@@ -14,10 +14,10 @@ use Nexcess\InstallmentPlansWooSubs\Helpers as Helpers;
 /**
  * Get all the details we put together for the email box.
  *
- * @param  object  $subscription  The WC_Subscription object.
- * @param  object  $order         The WC_Order object.
+ * @param WC_Subscription $subscription The WC_Subscription object.
+ * @param WC_Order        $order        The WC_Order object.
  *
- * @return array
+ * @return array The details we need to send.
  */
 function wcsip_get_email_content_args( $subscription, $order ) {
 
@@ -51,12 +51,12 @@ function wcsip_get_email_content_args( $subscription, $order ) {
 /**
  * Inserts a new key/value after the key in the array.
  *
- * @param  string $needle     The array key to insert the element after.
- * @param  array  $haystack   An array to insert the element into.
- * @param  string $new_key    The key to insert.
- * @param  mixed  $new_value  An value to insert.
+ * @param string $needle    The array key to insert the element after.
+ * @param array  $haystack  An array to insert the element into.
+ * @param string $new_key   The key to insert.
+ * @param mixed  $new_value An value to insert.
  *
- * @return array              The new array if the $needle key exists, otherwise an unmodified $haystack
+ * @return array The new array if the $needle key exists, otherwise an unmodified $haystack
  */
 function wcsip_array_insert_after( $needle = '', $haystack = array(), $new_key = '', $new_value ) {
 
@@ -93,10 +93,10 @@ function wcsip_array_insert_after( $needle = '', $haystack = array(), $new_key =
 /**
  * Get all the active (and inactive) installment based subscriptions for a user.
  *
- * @param  integer $user_id       The ID of the user whose subscriptions you want. Defaults to the currently logged in user.
- * @param  boolean $return_count  Whether to return the subscriptions or just the count.
+ * @param int  $user_id      The ID of the user whose subscriptions you want. Defaults to the currently logged in user.
+ * @param bool $return_count Whether to return the subscriptions or just the count.
  *
- * @return mixed                  Either an array of subscription objects, a count, or false.
+ * @return mixed Either an array of subscription objects, a count, or false.
  */
 function wcsip_get_user_installments( $user_id = 0, $return_count = false ) {
 

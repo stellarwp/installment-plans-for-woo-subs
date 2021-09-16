@@ -26,8 +26,6 @@ add_filter( 'request', __NAMESPACE__ . '\modify_installment_order_queries', 21 )
 
 /**
  * Check to see if we've finished our setup.
- *
- * @return void
  */
 function maybe_finish_installments_setup() {
 
@@ -58,9 +56,9 @@ function add_installments_rewrite_endpoint() {
 /**
  * Add new query var for the installments endpoint.
  *
- * @param  array $vars  The existing query vars.
+ * @param array $vars The existing query vars.
  *
- * @return array
+ * @return array The modified query vars.
  */
 function add_installments_endpoint_vars( $vars ) {
 
@@ -75,8 +73,10 @@ function add_installments_endpoint_vars( $vars ) {
  * Hooks into `woocommerce_get_query_vars` to make sure query vars defined in
  * this class are also considered `WC_Query` query vars.
  *
- * @param  array $query_vars
- * @return array
+ * @param array $query_vars The existing query vars.
+ *
+ * @return array The modified query vars.
+ *
  * @since  2.3.0
  */
 function add_woo_query_vars( $query_vars ) {
@@ -131,9 +131,9 @@ function remove_installments_from_list( $subscriptions, $user_id ) {
 /**
  * Modifies the main query on the WooCommerce products screen to correctly handle filtering by installments.
  *
- * @param  array $query_vars The existing array of query vars for the admin.
+ * @param array $query_vars The existing array of query vars for the admin.
  *
- * @return array $query_vars
+ * @return array $query_vars The modified array of query vars.
  */
 function modify_installment_product_queries( $query_vars ) {
 
@@ -166,9 +166,9 @@ function modify_installment_product_queries( $query_vars ) {
 /**
  * Modifies the main query on the WooCommerce orders screen to correctly handle filtering by installments.
  *
- * @param  array $query_vars The existing array of query vars for the admin.
+ * @param array $query_vars The existing array of query vars for the admin.
  *
- * @return array $query_vars
+ * @return array $query_vars The modified array of query vars.
  */
 function modify_installment_order_queries( $query_vars ) {
 

@@ -21,8 +21,6 @@ add_action( 'woocommerce_email_after_order_table', __NAMESPACE__ . '\maybe_add_i
 
 /**
  * Remove the default subscription info box.
- *
- * @return void
  */
 function remove_subscription_box() {
 	remove_action( 'woocommerce_email_after_order_table', 'WC_Subscriptions_Order::add_sub_info_email', 15, 3 );
@@ -31,11 +29,9 @@ function remove_subscription_box() {
 /**
  * Add our custom installment info box if the order is flagged.
  *
- * @param  object  $order           The WooCommerce order object.
- * @param  boolean $is_admin_email  Whether or not it's an admin email.
- * @param  boolean $plaintext       If this is a plaintext email or not.
- *
- * @return WC_Template part
+ * @param \WC_Order $order          The WooCommerce order object.
+ * @param bool      $is_admin_email Whether or not it's an admin email.
+ * @param bool      $plaintext      If this is a plaintext email or not.
  */
 function maybe_add_installment_info( $order, $is_admin_email, $plaintext = false ) {
 

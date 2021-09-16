@@ -24,8 +24,6 @@ add_filter( 'woocommerce_subscriptions_order_type_dropdown', __NAMESPACE__ . '\a
 
 /**
  * Add our small bit of inline CSS to the admin.
- *
- * @return string
  */
 function load_admin_inline_css() {
 
@@ -44,9 +42,9 @@ function load_admin_inline_css() {
 /**
  * Add a column to indicate if a subscription is also an installment plan.
  *
- * @param  array $existing_columns  The existing columns we have.
+ * @param array $existing_columns The existing columns we have.
  *
- * @return array
+ * @return array The new columns.
  */
 function add_installment_column_to_subscriptions( $existing_columns ) {
 
@@ -67,10 +65,8 @@ function add_installment_column_to_subscriptions( $existing_columns ) {
 /**
  * Render the icon for our custom column.
  *
- * @param  string  $column_name  The name of our column.
- * @param  integer $post_id      The ID of the subscription.
- *
- * @return HTML
+ * @param string $column_name The name of our column.
+ * @param int    $post_id     The ID of the subscription.
  */
 function render_installment_column_content( $column_name, $post_id ) {
 
@@ -94,9 +90,9 @@ function render_installment_column_content( $column_name, $post_id ) {
 /**
  * Add the 'installments' product type to the WooCommerce product type select box.
  *
- * @param  array $product_types  Existing array of the product types.
+ * @param array $product_types Existing array of the product types.
  *
- * @return array                 The modified array.
+ * @return array The modified array.
  */
 function add_installments_to_product_select( $product_types ) {
 
@@ -112,9 +108,9 @@ function add_installments_to_product_select( $product_types ) {
 /**
  * Add the 'installments' type to the WooCommerce orders type select box.
  *
- * @param  array $order_types  Existing array of the order types.
+ * @param array $order_types Existing array of the order types.
  *
- * @return array                 The modified array.
+ * @return array The modified array.
  */
 function add_installments_to_order_select( $order_types ) {
 

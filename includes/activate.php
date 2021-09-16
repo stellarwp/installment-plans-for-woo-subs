@@ -14,8 +14,6 @@ use Nexcess\InstallmentPlansWooSubs\Helpers as Helpers;
 
 /**
  * Our inital setup function when activated.
- *
- * @return void
  */
 function activate() {
 
@@ -64,7 +62,7 @@ function check_active_woo() {
 /**
  * Handle checking if WooCommerce is present and activated.
  *
- * @return void
+ * @param bool $check Check to see if WooCommerce is active.
  */
 function check_active_woo_subs() {
 
