@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file, according t
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-##[1.0.0] 00/00/2021
+##[1.0.0] 09/16/2021
 
 * Initial public release.
 
