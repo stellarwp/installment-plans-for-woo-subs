@@ -25,24 +25,24 @@ function wcsip_get_email_content_args( $subscription, $order ) {
 	$get_single_count   = get_post_meta( $order->get_id(), '_order_installment_count', true );
 
 	// Set our single total and increment.
-	$set_single_increm  = Helpers\add_ordinal_suffix( $subscription->get_payment_count() );
-	$set_single_total   = wc_price( $subscription->get_total(), array( 'currency' => $subscription->get_currency() ) );
 	$set_single_count   = ! empty( $get_single_count ) ? $get_single_count : 0;
+	$set_single_increm = Helpers\add_ordinal_suffix( $subscription->get_payment_count() );
+	$set_single_total  = wc_price( $subscription->get_total(), [ 'currency' => $subscription->get_currency() ] );
 
 	// Calculate the total cost.
 	$calc_instalm_total = absint( $subscription->get_total() ) * absint( $set_single_count );
-	$set_instalm_total  = wc_price( $calc_instalm_total, array( 'currency' => $subscription->get_currency() ) );
+	$set_instalm_total  = wc_price( $calc_instalm_total, [ 'currency' => $subscription->get_currency() ] );
 
 	// Set an array for this.
-	$set_content_array  = array(
 		'payment-detail'   => sprintf( __( '%s payment of %s', 'installment-plans-for-woo-subs' ), $set_single_increm, $set_single_total ),
+	$set_content_array = [
 		'payment-counts'   => sprintf( _n( '%d total payment', '%d total payments', $set_single_count, 'installment-plans-for-woo-subs' ), $set_single_count ),
 		'payment-schedule' => sprintf( __( '%s per %s', 'installment-plans-for-woo-subs' ), $set_single_total, $subscription->get_billing_period() ),
 		'payment-totals'   => sprintf( __( '%s total', 'installment-plans-for-woo-subs' ), $set_instalm_total ),
 		'no-remaining'     => esc_html_x( 'no remaining payments', 'the payment made was the final one', 'installment-plans-for-woo-subs' ),
 		'single-count'     => $set_single_count,
 		'total-cost'       => $set_instalm_total,
-	);
+	];
 
 	// Return the content array.
 	return apply_filters( Core\HOOK_PREFIX . 'email_content_args', $set_content_array, $subscription, $order );
