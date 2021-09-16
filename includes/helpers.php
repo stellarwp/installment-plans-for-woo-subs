@@ -237,7 +237,7 @@ function add_ordinal_suffix( $number = 1 ) {
 	$default_ordinal = $number . '<sup>th</sup>';
 
 	// We have some we need to do mathletics to.
-	if ( ! in_array( ( $number % 100 ), array( 11, 12, 13 ) ) ) {
+	if ( ! in_array( ( $number % 100 ), [ 11, 12, 13 ], true ) ) {
 
 		// Set an empty string.
 		$ordinal_number = '';
