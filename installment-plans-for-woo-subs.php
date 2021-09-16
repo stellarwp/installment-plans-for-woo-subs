@@ -47,15 +47,12 @@ define( __NAMESPACE__ . '\TRANSIENT_PREFIX', 'wcsip_tr_' );
 define( __NAMESPACE__ . '\FRONT_VAR', 'installment-plans' );
 
 // Now we handle all the various file loading.
-nx_wcs_installment_plans_file_load();
+add_action( 'plugins_loaded', __NAMESPACE__ . '\\load_files' );
 
 /**
  * Actually load our files.
- *
- * @return void
  */
-function nx_wcs_installment_plans_file_load() {
-
+function load_files() {
 	// Load the multi-use files first.
 	require_once __DIR__ . '/includes/helpers.php';
 	require_once __DIR__ . '/includes/utilities.php';
