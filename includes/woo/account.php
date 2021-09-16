@@ -171,8 +171,6 @@ function change_single_view_title( $title ) {
 
 /**
  * Add the content for our endpoint to display.
- *
- * @return HTML
  */
 function add_endpoint_content() {
 
