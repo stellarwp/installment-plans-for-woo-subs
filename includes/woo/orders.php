@@ -16,17 +16,14 @@ use Nexcess\InstallmentPlansWooSubs\Utilities as Utilities;
 /**
  * Start our engines.
  */
-add_action( 'woocommerce_checkout_create_order', __NAMESPACE__ . '\save_installment_order_meta', 20, 2 );
+add_action( 'woocommerce_checkout_create_order', __NAMESPACE__ . '\save_installment_order_meta', 20, 1 );
 
 /**
  * Add to the order meta if someone purchased an installment.
  *
- * @param  object $order  The WooCommerce order object.
- * @param  array  $data   The data being passed to make the order.
- *
- * @return void
+ * @param \WC_Order $order The WooCommerce order object.
  */
-function save_installment_order_meta( $order, $data ) {
+function save_installment_order_meta( $order ) {
 
 	// Check for the installments.
 	$maybe_has_installments = Helpers\maybe_order_has_installments( $order );

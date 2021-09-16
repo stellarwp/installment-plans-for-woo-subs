@@ -20,7 +20,7 @@ add_action( 'init', __NAMESPACE__ . '\maybe_finish_installments_setup' );
 add_action( 'init', __NAMESPACE__ . '\add_installments_rewrite_endpoint' );
 add_filter( 'query_vars', __NAMESPACE__ . '\add_installments_endpoint_vars', 0 );
 add_filter( 'woocommerce_get_query_vars', __NAMESPACE__ . '\add_woo_query_vars' );
-add_filter( 'wcs_get_users_subscriptions', __NAMESPACE__ . '\remove_installments_from_list', 20, 2 );
+add_filter( 'wcs_get_users_subscriptions', __NAMESPACE__ . '\remove_installments_from_list', 20, 1 );
 add_filter( 'request', __NAMESPACE__ . '\modify_installment_product_queries', 21 );
 add_filter( 'request', __NAMESPACE__ . '\modify_installment_order_queries', 21 );
 
@@ -86,12 +86,11 @@ function add_woo_query_vars( $query_vars ) {
 /**
  * Remove installment items from the main subscriptions list.
  *
- * @param  array   $subscriptions  The existing subscriptions.
- * @param  integer $user_id        The user being listed.
+ * @param array $subscriptions The existing subscriptions.
  *
- * @return array                   The potentially modified array.
+ * @return array The potentially modified array.
  */
-function remove_installments_from_list( $subscriptions, $user_id ) {
+function remove_installments_from_list( $subscriptions ) {
 
 	// Immediately bail if this is on the admin side
 	// or isn't on the actual account page.

@@ -22,7 +22,7 @@ add_filter( 'the_title', __NAMESPACE__ . '\change_endpoint_title', 11, 1 );
 add_filter( 'woocommerce_account_menu_items', __NAMESPACE__ . '\add_endpoint_menu_item' );
 add_filter( 'woocommerce_account_menu_item_classes', __NAMESPACE__ . '\maybe_add_active_class', 10, 2 );
 add_filter( 'woocommerce_endpoint_installment-plans_title', __NAMESPACE__ . '\change_list_view_title', 10, 3 );
-add_filter( 'woocommerce_endpoint_view-subscription_title', __NAMESPACE__ . '\change_single_view_title', 30, 3 );
+add_filter( 'woocommerce_endpoint_view-subscription_title', __NAMESPACE__ . '\change_single_view_title', 30 );
 add_action( 'woocommerce_account_installment-plans_endpoint', __NAMESPACE__ . '\add_endpoint_content' );
 
 /**
@@ -139,13 +139,11 @@ function change_list_view_title( $title, $endpoint, $action ) {
  *
  * We run this after Subscriptions does so we can change the ones that apply to us.
  *
- * @param  string $title     Default title.
- * @param  string $endpoint  Endpoint key.
- * @param  string $action    Optional action or variation within the endpoint.
+ * @param string $title Default title.
  *
  * @return string
  */
-function change_single_view_title( $title, $endpoint, $action ) {
+function change_single_view_title( $title ) {
 
 	// Call the global.
 	global $wp;

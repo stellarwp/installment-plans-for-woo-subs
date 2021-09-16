@@ -25,7 +25,7 @@ add_action( 'woocommerce_email_after_order_table', __NAMESPACE__ . '\maybe_add_i
  * @return void
  */
 function remove_subscription_box() {
-	remove_action( 'woocommerce_email_after_order_table', 'WC_Subscriptions_Order::add_sub_info_email', 15, 3 );
+	remove_action( 'woocommerce_email_after_order_table', 'WC_Subscriptions_Order::add_sub_info_email', 15 );
 }
 
 /**
