@@ -30,7 +30,7 @@ add_action( 'woocommerce_account_installment-plans_endpoint', __NAMESPACE__ . '\
  *
  * @param  array $menu_items  The existing menu items.
  *
- * @return array
+ * @return array              The (possibly) modified menu items.
  */
 function add_endpoint_menu_item( $menu_items ) {
 
@@ -64,11 +64,10 @@ function add_endpoint_menu_item( $menu_items ) {
 /**
  * Adds `is-active` class to Subscriptions label when we're viewing a single Subscription.
  *
- * @param array  $classes  The classes present in the current endpoint.
- * @param string $endpoint The endpoint/label we're filtering.
+ * @param  array  $classes   The classes present in the current endpoint.
+ * @param  string $endpoint  The endpoint/label we're filtering.
  *
- * @return array
- * @since 2.5.6
+ * @return array             The (possibly) modified class items.
  */
 function maybe_add_active_class( $classes, $endpoint ) {
 
@@ -87,10 +86,11 @@ function maybe_add_active_class( $classes, $endpoint ) {
 }
 
 /**
- * Changes page title on view subscription page
+ * Changes page title on view subscription page.
  *
- * @param  string $title original title
- * @return string        changed title
+ * @param  string $title  Our original title.
+ *
+ * @return string         Our (possibly) changed title.
  */
 function change_endpoint_title( $title ) {
 
@@ -125,7 +125,7 @@ function change_endpoint_title( $title ) {
  * @param  string $endpoint  Endpoint key.
  * @param  string $action    Optional action or variation within the endpoint.
  *
- * @return string
+ * @return string            Our title for the endpoint.
  */
 function change_list_view_title( $title, $endpoint, $action ) {
 
@@ -143,7 +143,7 @@ function change_list_view_title( $title, $endpoint, $action ) {
  * @param  string $endpoint  Endpoint key.
  * @param  string $action    Optional action or variation within the endpoint.
  *
- * @return string
+ * @return string            Our title for the endpoint.
  */
 function change_single_view_title( $title, $endpoint, $action ) {
 

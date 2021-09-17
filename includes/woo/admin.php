@@ -24,8 +24,6 @@ add_filter( 'woocommerce_subscriptions_order_type_dropdown', __NAMESPACE__ . '\a
 
 /**
  * Add our small bit of inline CSS to the admin.
- *
- * @return string
  */
 function load_admin_inline_css() {
 
@@ -46,7 +44,7 @@ function load_admin_inline_css() {
  *
  * @param  array $existing_columns  The existing columns we have.
  *
- * @return array
+ * @return array                    The (possibly) modified column array.
  */
 function add_installment_column_to_subscriptions( $existing_columns ) {
 
@@ -114,7 +112,7 @@ function add_installments_to_product_select( $product_types ) {
  *
  * @param  array $order_types  Existing array of the order types.
  *
- * @return array                 The modified array.
+ * @return array               The modified array.
  */
 function add_installments_to_order_select( $order_types ) {
 

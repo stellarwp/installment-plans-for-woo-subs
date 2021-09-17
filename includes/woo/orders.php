@@ -21,10 +21,8 @@ add_action( 'woocommerce_checkout_create_order', __NAMESPACE__ . '\save_installm
 /**
  * Add to the order meta if someone purchased an installment.
  *
- * @param  object $order  The WooCommerce order object.
- * @param  array  $data   The data being passed to make the order.
- *
- * @return void
+ * @param \WC_Order $order  The WooCommerce order object.
+ * @param array     $data   The data being passed to make the order.
  */
 function save_installment_order_meta( $order, $data ) {
 

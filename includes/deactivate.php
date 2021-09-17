@@ -13,8 +13,6 @@ use Nexcess\InstallmentPlansWooSubs as Core;
 
 /**
  * Delete various options when deactivating the plugin.
- *
- * @return void
  */
 function deactivate() {
 

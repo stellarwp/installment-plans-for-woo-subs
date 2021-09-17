@@ -14,10 +14,10 @@ use Nexcess\InstallmentPlansWooSubs\Helpers as Helpers;
 /**
  * Get all the details we put together for the email box.
  *
- * @param  object  $subscription  The WC_Subscription object.
- * @param  object  $order         The WC_Order object.
+ * @param  \WC_Subscription $subscription  The entire WC_Subscription object.
+ * @param  \WC_Order        $order         The entire WC_Order object.
  *
- * @return array
+ * @return array                           All the specific details required.
  */
 function wcsip_get_email_content_args( $subscription, $order ) {
 

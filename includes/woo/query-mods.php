@@ -26,8 +26,6 @@ add_filter( 'request', __NAMESPACE__ . '\modify_installment_order_queries', 21 )
 
 /**
  * Check to see if we've finished our setup.
- *
- * @return void
  */
 function maybe_finish_installments_setup() {
 
@@ -60,7 +58,7 @@ function add_installments_rewrite_endpoint() {
  *
  * @param  array $vars  The existing query vars.
  *
- * @return array
+ * @return array        The new modified set of vars.
  */
 function add_installments_endpoint_vars( $vars ) {
 
@@ -75,9 +73,9 @@ function add_installments_endpoint_vars( $vars ) {
  * Hooks into `woocommerce_get_query_vars` to make sure query vars defined in
  * this class are also considered `WC_Query` query vars.
  *
- * @param  array $query_vars
- * @return array
- * @since  2.3.0
+ * @param  array $query_vars  The existing query vars in Woo.
+ *
+ * @return array              The new modified set of vars.
  */
 function add_woo_query_vars( $query_vars ) {
 	return array_merge( $query_vars, array( Core\FRONT_VAR => Core\FRONT_VAR ) );
@@ -131,9 +129,9 @@ function remove_installments_from_list( $subscriptions, $user_id ) {
 /**
  * Modifies the main query on the WooCommerce products screen to correctly handle filtering by installments.
  *
- * @param  array $query_vars The existing array of query vars for the admin.
+ * @param  array $query_vars  The existing array of query vars for the admin.
  *
- * @return array $query_vars
+ * @return array              The new modified set of vars.
  */
 function modify_installment_product_queries( $query_vars ) {
 
@@ -168,7 +166,7 @@ function modify_installment_product_queries( $query_vars ) {
  *
  * @param  array $query_vars The existing array of query vars for the admin.
  *
- * @return array $query_vars
+ * @return array             The new modified set of vars.
  */
 function modify_installment_order_queries( $query_vars ) {
 

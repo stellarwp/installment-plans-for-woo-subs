@@ -21,11 +21,11 @@ add_action( 'woocommerce_process_product_meta_subscription', __NAMESPACE__ . '\s
 add_action( 'woocommerce_process_product_meta_variable-subscription', __NAMESPACE__ . '\save_installment_option_type', 10 );
 
 /**
- * Add a new interval to run every 4 hours.
+ * Include our installment "type" meta box in the Woo product box.
  *
- * @param  array $schedules  The current array of intervals.
+ * @param  array $product_types  The current array of product types.
  *
- * @return array
+ * @return array                 The (possibly) modified array of product_types.
  */
 function add_installment_option_type( $product_types ) {
 
@@ -50,8 +50,6 @@ function add_installment_option_type( $product_types ) {
  * Add the installment flag to the product meta for our two subscription types.
  *
  * @param  integer $product_id  The ID of the product being saved.
- *
- * @return void
  */
 function save_installment_option_type( $product_id ) {
 

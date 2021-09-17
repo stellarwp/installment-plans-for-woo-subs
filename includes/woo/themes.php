@@ -18,8 +18,6 @@ add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\load_storefront_inline_css',
 
 /**
  * Load the inline CSS for the sidebar in Storefront.
- *
- * @return void
  */
 function load_storefront_inline_css() {
 
