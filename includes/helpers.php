@@ -18,7 +18,7 @@ use Nexcess\InstallmentPlansWooSubs\Utilities as Utilities;
  * @return boolean
  */
 function maybe_woo_activated() {
-	return class_exists( 'woocommerce' ) ? true : false;
+	return class_exists( 'woocommerce' );
 }
 
 /**
@@ -27,15 +27,17 @@ function maybe_woo_activated() {
  * @return boolean
  */
 function maybe_woo_subs_activated() {
-	return function_exists( 'wcs_is_subscription' ) ? true : false;
+	return function_exists( 'wcs_is_subscription' );
 }
 
 /**
  * Check and see if any products have been applied.
  *
+ * @param  boolean $purge  Whether or not to purge the transient first.
+ *
  * @return boolean
  */
-function maybe_store_has_installments() {
+function maybe_store_has_installments( $purge = false ) {
 
 	// Set the key to use in our transient.
 	$ky = Core\TRANSIENT_PREFIX . 'has_installments';

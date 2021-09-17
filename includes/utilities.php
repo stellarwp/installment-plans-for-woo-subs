@@ -100,9 +100,14 @@ function wcsip_array_insert_after( $needle = '', $haystack = array(), $new_key =
  */
 function wcsip_get_user_installments( $user_id = 0, $return_count = false ) {
 
-	// Make sure we have a user ID before we continue.
-	if ( 0 === $user_id || empty( $user_id ) ) {
+	// If no user ID was passed, pull the current.
+	if ( empty( absint( $user_id ) ) ) {
 		$user_id = get_current_user_id();
+	}
+
+	// Make sure we have a user ID before we continue.
+	if ( empty( $user_id ) ) {
+		return false;
 	}
 
 	// Set an empty.

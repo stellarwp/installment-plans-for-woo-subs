@@ -35,7 +35,7 @@ function maybe_finish_installments_setup() {
 	$has_completed  = get_option( Core\OPTION_PREFIX . 'activation_complete', false );
 
 	// It's there and flagged as "yes", so we're done.
-	if ( ! empty( $has_completed ) && 'yes' === sanitize_text_field( $has_completed ) ) {
+	if ( 'yes' === sanitize_text_field( $has_completed ) ) {
 		return;
 	}
 
