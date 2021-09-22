@@ -9,3 +9,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 * Initial public release.
 
+##[1.0.1] 09/22/2021
+
+* general code cleanup
+* removing redundant variable checks
+
