@@ -3,7 +3,7 @@
  * Plugin Name: Installment Plans for WooCommerce Subscriptions
  * Plugin URI:  https://www.nexcess.net
  * Description: Extend the Subscriptions plugin for WooCommerce to handle installments.
- * Version:     1.0.1
+ * Version:     1.0.2-dev
  * Author:      Nexcess
  * Author URI:  https://www.nexcess.net
  * Text Domain: installment-plans-for-woo-subs
@@ -23,7 +23,7 @@ namespace Nexcess\InstallmentPlansWooSubs;
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // Define our plugin version.
-define( __NAMESPACE__ . '\VERS', '1.0.1' );
+define( __NAMESPACE__ . '\VERS', '1.0.2-dev' );
 
 // Plugin root file.
 define( __NAMESPACE__ . '\FILE', __FILE__ );
